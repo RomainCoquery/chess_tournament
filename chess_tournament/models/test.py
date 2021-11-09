@@ -76,6 +76,9 @@ class Tournaments:
                                   timer, description)
         self.tournaments_list.append(a_tournament)
 
+    def __repr__(self):
+        return f"{self.tournaments_list}"
+
 class Tournament:
     """Tournament with is attributes tournament_name, location,
     creation_date, number_of_rounds, timer, description"""
@@ -104,11 +107,15 @@ class Tournament:
 
 
 tournoi = Tournament(tournament_name='le tournoi', location='Paris',
-                     creation_date='12.10.2021', timer=20,
+                     creation_date='12.10.2021', timer='bullet',
                      description='le grand tournoi des débutants en python')
-
+a = Tournaments()
+a.add_tournament(tournament_name='test', location='lyon',
+                 creation_date='10.10.2000', timer='blitz',
+                 description="j'espère que ça va fonctionner")
 player_one = Player(id_player=1, first_name='Breton', last_name='Pedro',
                  date_of_birth='18.10.1900', gender='M')
 
 print(player_one)
 print(tournoi)
+print(a)
