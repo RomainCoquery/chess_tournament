@@ -1,4 +1,5 @@
 import datetime
+from copy import deepcopy
 
 PLAYERS_PER_TOURNAMENT = 8
 NUMBER_OF_ROUND = 4
@@ -6,7 +7,7 @@ PROGRAM_NAME = 'chess_tournament'
 
 
 # ajoute un round au tournoi
-# print la liste de rounds du tournament
+# print la liste de rounds du tournament # Fait
 # créer un match entre 2 players et l'ajouter au round
 
 class Match:
@@ -15,10 +16,8 @@ class Match:
         self.player2 = player2
         self.winner = None
 
-    def create_match(self, player1, player2):
-        self.matchs.append(([player1, 0], [player2, 0]))
-
     def set_winner(self, winner):
+        """Define winner from the match"""
         self.winner = winner
         if winner == 1:
             self.player1.update_score(1)
@@ -34,18 +33,15 @@ class Round:
         self.name = name
         self.matches = []
 
-    def create_first_round(self):
-        list_a = [1, 2, 3, 4]
-        list_b = [5, 6, 7, 8]
-        first_round_matches = list(zip(list_a, list_b))
-        self.matches.append(first_round_matches)
+    def add_match(self, match):
+        self.matches.append(match)
 
     def __repr__(self):
         return f"{self.name} {self.start_date} {self.matches}"
 
 class Player:
     """Player with is attributes id_player, last_name, first_name,
-    date_of_birth, gender"""
+    birthday, gender, rank"""
     def __init__(self, id_, last_name, first_name, birthday, gender, rank):
         self.id_ = id_ or int()
         self.last_name = last_name or str()
@@ -53,8 +49,10 @@ class Player:
         self.birthday = birthday or str()
         self.gender = gender or str()
         self.rank = rank or int()
+        self.history = []
 
     def full_name(self):
+        """define the full name of player"""
         return f"{self.first_name} {self.last_name}"
 
     def __repr__(self):
@@ -75,20 +73,35 @@ class Tournament:
         self.players = []
         self.rounds = []
 
-    def start_first_round(self):
-        first_round = Round(name="Round1")
-        self.rounds.append(first_round)
-
-    def start_other_round(self):
-        other_round = Round(name='Round2')
-        self.rounds.append(other_round)
-
     def add_tournament_player(self, player):
         if isinstance(player, Player):
             self.players.append(player)
 
+    def create_first_round(self):
+        """Create first round and the matches from this one"""
+        first_round = Round(name="Round1")
+        players = deepcopy(sorted(self.players, key=lambda
+            player: player.rank, reverse=True))
+        length = len(players)
+        middle_index = length // 2
+        above = players[:middle_index]
+        below = players[middle_index:]
+        for player1, player2 in zip(above, below):
+            player1 : players
+            player2 : players
+            player1.history.append(player2.id_)
+            player2.history.append(player1.id_)
+            first_round.add_match(Match(player1, player2))
+        return self.rounds.append(first_round.add_match)
+
+    def start_other_round(self):
+        other_round = Round(name="Round2")
+        self.rounds.append(other_round)
+
     def __repr__(self):
-        return f"{self.tournament_name} {self.location, self.creation_date}"
+        return f"{self.tournament_name} {self.location} {self.creation_date} " \
+               f"{self.number_of_rounds} {self.timer} {self.description} " \
+               f"{self.players} {self.rounds}"
 
 
 tournoi = Tournament(tournament_name='le tournoi', location='Paris',
@@ -99,29 +112,23 @@ tournoi2 = Tournament(tournament_name='tournoi2', location='Paris',
                      description='le grand tournoi des débutants en python')
 
 player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
-                 birthday='18.10.1900', gender='M', rank=None)
+                 birthday='18.10.1900', gender='M', rank=0)
 player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
                     birthday='12.10.2020', gender='F', rank=10)
 
-tournoi.location='Lyon'
+
 tournoi.add_tournament_player(player_one)
-tournoi.start_first_round()
+tournoi.add_tournament_player(player_two)
+tournoi.create_first_round()
 tournoi.start_other_round()
 
-tournoi.players.append(123)
-tournoi.add_tournament_player(player_two)
 
-
-round_test = Round(name="round test")
-round_test.create_first_round()
-
-print(player_one, player_two)
-print(round_test)
-print(tournoi, tournoi2)
-print(tournoi.location)
-print(tournoi.players)
+# print(player_one, player_two)
+# print(tournoi, tournoi2)
+# print(tournoi.location)
+# print(tournoi.players)
 print(tournoi.rounds)
-print(tournoi.players[0].birthday)
-print(tournoi.rounds[0].start_date)
-print(tournoi.rounds[0].matches)
-
+# print(tournoi.players[0].birthday)
+print(tournoi.rounds[1].name)
+# print(tournoi.rounds[1].start_date)
+# print(tournoi.rounds[1].matches)
