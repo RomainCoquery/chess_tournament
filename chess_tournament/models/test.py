@@ -29,8 +29,8 @@ class Match:
 
 class Round:
     def __init__(self, name):
-        self.start_date = datetime.datetime.now()
         self.name = name
+        self.start_date = datetime.datetime.now()
         self.matches = []
 
     def add_match(self, match):
@@ -87,12 +87,12 @@ class Tournament:
         above = players[:middle_index]
         below = players[middle_index:]
         for player1, player2 in zip(above, below):
-            player1 : players
-            player2 : players
+            player1 : Player
+            player2 : Player
             player1.history.append(player2.id_)
             player2.history.append(player1.id_)
             first_round.add_match(Match(player1, player2))
-        return self.rounds.append(first_round.add_match)
+            self.rounds.append(first_round)
 
     def start_other_round(self):
         other_round = Round(name="Round2")
@@ -112,7 +112,7 @@ tournoi2 = Tournament(tournament_name='tournoi2', location='Paris',
                      description='le grand tournoi des débutants en python')
 
 player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
-                 birthday='18.10.1900', gender='M', rank=0)
+                 birthday='18.10.1900', gender='M', rank=20)
 player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
                     birthday='12.10.2020', gender='F', rank=10)
 
@@ -129,6 +129,6 @@ tournoi.start_other_round()
 # print(tournoi.players)
 print(tournoi.rounds)
 # print(tournoi.players[0].birthday)
-print(tournoi.rounds[1].name)
+# print(tournoi.rounds[1].name)
 # print(tournoi.rounds[1].start_date)
 # print(tournoi.rounds[1].matches)
