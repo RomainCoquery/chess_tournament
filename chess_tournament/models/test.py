@@ -53,13 +53,14 @@ class Round:
 class Player:
     """Player with is attributes id_player, last_name, first_name,
     birthday, gender, rank"""
-    def __init__(self, id_, last_name, first_name, birthday, gender, rank):
+    def __init__(self, id_, last_name, first_name, birthday, gender, rank, score=0):
         self.id_ = id_ or int()
         self.last_name = last_name or str()
         self.first_name = first_name or str()
         self.birthday = birthday or str()
         self.gender = gender or str()
         self.rank = rank or int()
+        self.score = score or float()
         self.history = []
 
     def full_name(self):
@@ -68,7 +69,7 @@ class Player:
 
     def __repr__(self):
         return f" {self.id_} {self.last_name} {self.first_name} " \
-               f"{self.birthday} {self.gender} {self.rank} {self.history}"
+               f"{self.birthday} {self.gender} {self.rank} {self.score} {self.history}"
 
 class Tournament:
     """Tournament with is attributes tournament_name, location,
@@ -111,7 +112,7 @@ class Tournament:
             previous_round = self.rounds[round(-1)]
             previous_players = deepcopy(previous_round.get_players())
             players = sorted(previous_players, key=lambda
-                player_: int(player_.rank), reverse=True)
+                player_: (float(player_.score), int(player_.rank)), reverse=True)
             locked_id_ = []
             for player in players:
                 player: Player
@@ -148,9 +149,9 @@ player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
 player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
                     birthday='12.10.2020', gender='F', rank=10)
 player_three = Player(id_=3, first_name='baby', last_name='run run',
-                      birthday='22.22.2001', gender='m', rank=30)
+                      birthday='22.22.2001', gender='M', rank=30)
 player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
-                     birthday='04.06.1995', gender='f', rank=40)
+                     birthday='04.06.1995', gender='F', rank=40)
 
 
 tournoi.add_tournament_player(player_one)
