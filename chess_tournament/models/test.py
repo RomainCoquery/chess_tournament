@@ -16,6 +16,10 @@ class Match:
         self.player2 = player2
         self.winner = None
 
+    def get_players(self):
+        """Get all the players from the match"""
+        return [self.player1, self.player2]
+
     def set_winner(self, winner):
         """Define winner from the match"""
         self.winner = winner
@@ -27,11 +31,18 @@ class Match:
             self.player1.update_score(0.5)
             self.player2.update_score(0.5)
 
+    def __repr__(self):
+        return f"{self.player1} {self.player2} {self.winner}"
+
 class Round:
     def __init__(self, name):
         self.name = name
         self.start_date = datetime.datetime.now()
         self.matches = []
+
+    def get_players(self):
+        return [player for match in self.matches for player in
+                match.get_players()]
 
     def add_match(self, match):
         self.matches.append(match)
@@ -57,7 +68,7 @@ class Player:
 
     def __repr__(self):
         return f" {self.id_} {self.last_name} {self.first_name} " \
-               f"{self.birthday} {self.gender} {self.rank}"
+               f"{self.birthday} {self.gender} {self.rank} {self.history}"
 
 class Tournament:
     """Tournament with is attributes tournament_name, location,
@@ -72,6 +83,7 @@ class Tournament:
         self.description = description or str()
         self.players = []
         self.rounds = []
+        self.round_instance = []
 
     def add_tournament_player(self, player):
         if isinstance(player, Player):
@@ -80,23 +92,43 @@ class Tournament:
     def create_first_round(self):
         """Create first round and the matches from this one"""
         first_round = Round(name="Round1")
+        self.round_instance = +1
         players = deepcopy(sorted(self.players, key=lambda
-            player: player.rank, reverse=True))
+            player: player.rank, reverse=False))
         length = len(players)
         middle_index = length // 2
         above = players[:middle_index]
         below = players[middle_index:]
         for player1, player2 in zip(above, below):
-            player1 : Player
-            player2 : Player
             player1.history.append(player2.id_)
             player2.history.append(player1.id_)
             first_round.add_match(Match(player1, player2))
-            self.rounds.append(first_round)
+        self.rounds.append(first_round)
 
     def start_other_round(self):
-        other_round = Round(name="Round2")
-        self.rounds.append(other_round)
+        new_round = Round(name="other_round")
+        if self.round_instance != 0:
+            previous_round = self.rounds[round(-1)]
+            previous_players = deepcopy(previous_round.get_players())
+            players = sorted(previous_players, key=lambda
+                player_: int(player_.rank), reverse=True)
+            locked_id_ = []
+            for player in players:
+                player: Player
+                if player.id_ in locked_id_:
+                    continue
+                locked_id_.append(player.id_)
+                for opponent in players:
+                    opponent: Player
+                    if opponent.id_ in locked_id_ or opponent.id_ in player.history:
+                        continue
+                    locked_id_.append(opponent.id_)
+                    player.history.append(opponent.id_)
+                    opponent.history.append(player.id_)
+                    new_round.add_match(Match(player, opponent))
+                    break
+        self.round_instance = +1
+        self.rounds.append(new_round)
 
     def __repr__(self):
         return f"{self.tournament_name} {self.location} {self.creation_date} " \
@@ -115,20 +147,28 @@ player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
                  birthday='18.10.1900', gender='M', rank=20)
 player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
                     birthday='12.10.2020', gender='F', rank=10)
+player_three = Player(id_=3, first_name='baby', last_name='run run',
+                      birthday='22.22.2001', gender='m', rank=30)
+player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
+                     birthday='04.06.1995', gender='f', rank=40)
 
 
 tournoi.add_tournament_player(player_one)
 tournoi.add_tournament_player(player_two)
+tournoi.add_tournament_player(player_three)
+tournoi.add_tournament_player(player_four)
 tournoi.create_first_round()
+tournoi.start_other_round()
+tournoi.start_other_round()
 tournoi.start_other_round()
 
 
 # print(player_one, player_two)
-# print(tournoi, tournoi2)
+# print(tournoi)
 # print(tournoi.location)
 # print(tournoi.players)
 print(tournoi.rounds)
 # print(tournoi.players[0].birthday)
 # print(tournoi.rounds[1].name)
 # print(tournoi.rounds[1].start_date)
-# print(tournoi.rounds[1].matches)
+# print(tournoi.rounds[0].matches)
