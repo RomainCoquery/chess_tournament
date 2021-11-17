@@ -59,8 +59,8 @@ class Player:
         self.score = score or float()
         self.history = []
 
-    def update_score(self):
-        return self.score
+    def update_score(self, score):
+        self.score = self.score + score
 
     def full_name(self):
         """define the full name of player"""
@@ -68,7 +68,8 @@ class Player:
 
     def __repr__(self):
         return f" {self.id_} {self.last_name} {self.first_name} " \
-               f"{self.birthday} {self.gender} {self.rank} {self.score} {self.history}"
+               f"{self.birthday} {self.gender} {self.rank} {self.score} " \
+               f"{self.history} "
 
 class Tournament:
     """Tournament with is attributes tournament_name, location,
@@ -151,7 +152,7 @@ player_three = Player(id_=3, first_name='baby', last_name='run run',
                       birthday='22.22.2001', gender='M', rank=30)
 player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
                      birthday='04.06.1995', gender='F', rank=40)
-
+'''
 
 # tournoi.add_tournament_player(player_one)
 # tournoi.add_tournament_player(player_two)
@@ -171,7 +172,7 @@ player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
 # print(tournoi.rounds[1].name)
 # print(tournoi.rounds[1].start_date)
 # print(tournoi.rounds[0].matches)
-'''
+
 
 tournoi = Tournament(tournament_name='Tournoi', location='Ici',
                      creation_date='16.11.2021', timer='Blitz', description='test')
@@ -203,22 +204,23 @@ tournoi.add_tournament_player(player_two)
 tournoi.add_tournament_player(player_one)
 
 tournoi.create_first_round()
-'''
-print(tournoi.rounds[0].matches[0])
-print(tournoi.rounds[0].matches[1])
-print(tournoi.rounds[0].matches[2])
-print(tournoi.rounds[0].matches[3])
-'''
+
+for index, match in enumerate(tournoi.rounds[0].matches, start=1):
+    match_player1 = match.player1.first_name, match.player1.last_name, match.player1.rank, match.player1.score
+    match_player2 = match.player2.first_name, match.player2.last_name, match.player2.rank, match.player2.score
+    print("Match",index,":"'\n', *match_player1, "VS", *match_player2)
+
 tournoi.rounds[0].matches[0].set_winner(1)
 tournoi.rounds[0].matches[1].set_winner(2)
 tournoi.rounds[0].matches[2].set_winner(2)
 tournoi.rounds[0].matches[3].set_winner(0)
-'''
-print(tournoi.rounds[0].matches[0])
-'''
-print(tournoi.rounds[0].matches[0].set_winner)
-print(tournoi.rounds[0].matches[1].set_winner)
-print(tournoi.rounds[0].matches[2].set_winner)
-print(tournoi.rounds[0].matches[3].set_winner)
+
+for index, match in enumerate(tournoi.rounds[0].matches, start=1):
+    match_player1 = match.player1.first_name, match.player1.last_name, match.player1.rank, match.player1.score
+    match_player2 = match.player2.first_name, match.player2.last_name, match.player2.rank, match.player2.score
+    print("Match",index,":"'\n', *match_player1, "VS", *match_player2)
 
 print(tournoi.rounds[0].matches[0])
+print(tournoi.rounds[0].matches[1])
+print(tournoi.rounds[0].matches[2])
+print(tournoi.rounds[0].matches[3])
