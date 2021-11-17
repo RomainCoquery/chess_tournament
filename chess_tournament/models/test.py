@@ -6,10 +6,6 @@ NUMBER_OF_ROUND = 4
 PROGRAM_NAME = 'chess_tournament'
 
 
-# ajoute un round au tournoi
-# print la liste de rounds du tournament # Fait
-# créer un match entre 2 players et l'ajouter au round
-
 class Match:
     def __init__(self, player1, player2):
         self.player1 = player1
@@ -32,7 +28,7 @@ class Match:
             self.player2.update_score(0.5)
 
     def __repr__(self):
-        return f"{self.player1} {self.player2} {self.winner}"
+        return f"{self.player1} {self.player2}"
 
 class Round:
     def __init__(self, name):
@@ -53,7 +49,7 @@ class Round:
 class Player:
     """Player with is attributes id_player, last_name, first_name,
     birthday, gender, rank"""
-    def __init__(self, id_, last_name, first_name, birthday, gender, rank, score=0):
+    def __init__(self, id_, last_name, first_name, birthday, gender, rank, score):
         self.id_ = id_ or int()
         self.last_name = last_name or str()
         self.first_name = first_name or str()
@@ -62,6 +58,9 @@ class Player:
         self.rank = rank or int()
         self.score = score or float()
         self.history = []
+
+    def update_score(self):
+        return self.score
 
     def full_name(self):
         """define the full name of player"""
@@ -136,7 +135,7 @@ class Tournament:
                f"{self.number_of_rounds} {self.timer} {self.description} " \
                f"{self.players} {self.rounds}"
 
-
+'''
 tournoi = Tournament(tournament_name='le tournoi', location='Paris',
                      creation_date='12.10.2021', timer='bullet',
                      description='le grand tournoi des débutants en python')
@@ -154,22 +153,72 @@ player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
                      birthday='04.06.1995', gender='F', rank=40)
 
 
-tournoi.add_tournament_player(player_one)
-tournoi.add_tournament_player(player_two)
-tournoi.add_tournament_player(player_three)
-tournoi.add_tournament_player(player_four)
-tournoi.create_first_round()
-tournoi.start_other_round()
-tournoi.start_other_round()
-tournoi.start_other_round()
-
+# tournoi.add_tournament_player(player_one)
+# tournoi.add_tournament_player(player_two)
+# tournoi.add_tournament_player(player_three)
+# tournoi.add_tournament_player(player_four)
+# tournoi.create_first_round()
+# tournoi.start_other_round()
+# tournoi.start_other_round()
+# tournoi.start_other_round()
 
 # print(player_one, player_two)
 # print(tournoi)
 # print(tournoi.location)
 # print(tournoi.players)
-print(tournoi.rounds)
+# print(tournoi.rounds)
 # print(tournoi.players[0].birthday)
 # print(tournoi.rounds[1].name)
 # print(tournoi.rounds[1].start_date)
 # print(tournoi.rounds[0].matches)
+'''
+
+tournoi = Tournament(tournament_name='Tournoi', location='Ici',
+                     creation_date='16.11.2021', timer='Blitz', description='test')
+
+player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
+                 birthday='18.10.1900', gender='M', rank=20, score=0)
+player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
+                    birthday='12.10.2020', gender='F', rank=10, score=0)
+player_three = Player(id_=3, first_name='baby', last_name='run run',
+                      birthday='22.22.2001', gender='M', rank=30, score=0)
+player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
+                     birthday='04.06.1995', gender='F', rank=40, score=0)
+player_five = Player(id_=5, first_name='Pablo', last_name='Picasso',
+                     birthday='02.03.2000', gender='M', rank=523, score=0)
+player_six = Player(id_=6, first_name='Marc', last_name='Bambi',
+                    birthday='01.02.3026', gender='F', rank=235, score=0)
+player_seven = Player(id_=7, first_name='Bea', last_name='Beo',
+                      birthday='25.12.1782', gender='F', rank=852, score=0)
+player_eight = Player(id_=8, first_name='Babe', last_name='Pig',
+                      birthday='01.11.2005', gender='M', rank=3, score=0)
+
+tournoi.add_tournament_player(player_eight)
+tournoi.add_tournament_player(player_seven)
+tournoi.add_tournament_player(player_six)
+tournoi.add_tournament_player(player_five)
+tournoi.add_tournament_player(player_four)
+tournoi.add_tournament_player(player_three)
+tournoi.add_tournament_player(player_two)
+tournoi.add_tournament_player(player_one)
+
+tournoi.create_first_round()
+'''
+print(tournoi.rounds[0].matches[0])
+print(tournoi.rounds[0].matches[1])
+print(tournoi.rounds[0].matches[2])
+print(tournoi.rounds[0].matches[3])
+'''
+tournoi.rounds[0].matches[0].set_winner(1)
+tournoi.rounds[0].matches[1].set_winner(2)
+tournoi.rounds[0].matches[2].set_winner(2)
+tournoi.rounds[0].matches[3].set_winner(0)
+'''
+print(tournoi.rounds[0].matches[0])
+'''
+print(tournoi.rounds[0].matches[0].set_winner)
+print(tournoi.rounds[0].matches[1].set_winner)
+print(tournoi.rounds[0].matches[2].set_winner)
+print(tournoi.rounds[0].matches[3].set_winner)
+
+print(tournoi.rounds[0].matches[0])
