@@ -30,10 +30,10 @@ class TournamentController:
         tournament id we want to display
         """
         try:
-            # search the player on the store
+            # search the tournament on the store
             tournament = next(t for t in store["tournaments"]
                           if t.tournament_name == route_params)
-            # we pass the player to the view that will display the player
+            # we pass the tournament to the view that will display the tournament
             # info and the next options
             choice = TournamentView.detail_tournament(tournament)
             if choice.lower() == "q":
@@ -42,14 +42,13 @@ class TournamentController:
                 return "homepage", None
         except StopIteration:
             print("No tournament with this name")
-            return "list_player", None
+            return "list_tournament", None
 
     @classmethod
     def create(cls, store, route_params=None):
-        # call the view that will return us a dict with the new player info
+        # call the view that will return us a dict with the new tournament info
         data = TournamentView.create_tournament()
-        # You could specify each argument like:
-        # player = Player(id=data["id"], name=data["name"], age=data["age"])
+        # You could specify each argument
         # but it's easier to use `**` to pass the arguments
         tournament = Tournament(**data)
         if tournament.validate():
@@ -57,7 +56,7 @@ class TournamentController:
         else:
             print("Error, Data for tournament are wrong!")
             return "list_tournament", None
-        # we add the player to the store
+        # we add the tournament to the store
         store["tournaments"].append(tournament)
 
         return "list_tournament", None

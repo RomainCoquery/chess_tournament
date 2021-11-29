@@ -7,5 +7,5 @@ Python 3 needed
 # Launch
 
 ```shell
-python -m players
+python -m chess_tournament
 ```

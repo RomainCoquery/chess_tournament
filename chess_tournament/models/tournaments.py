@@ -1,9 +1,9 @@
 import datetime
-
+from constants import NUMBER_OF_ROUNDS
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
 from chess_tournament.models.players import Player
-from constants import NUMBER_OF_ROUNDS
+
 
 class Tournament:
     """Tournament with is attributes tournament_name, location,
