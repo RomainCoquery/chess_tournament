@@ -1,10 +1,7 @@
 import datetime
-from copy import deepcopy
 
 PLAYERS_PER_TOURNAMENT = 8
 NUMBER_OF_ROUND = 4
-PROGRAM_NAME = 'chess_tournament'
-
 
 class Match:
     def __init__(self, player1, player2):
@@ -62,6 +59,9 @@ class Player:
     def update_score(self, score):
         self.score = self.score + score
 
+    def validate(self):
+        return True
+
     def full_name(self):
         """define the full name of player"""
         return f"{self.first_name} {self.last_name}"
@@ -80,7 +80,7 @@ class Tournament:
         self.location = location
         self.creation_date = creation_date or datetime.datetime.now()
         self.number_of_rounds = NUMBER_OF_ROUND
-        self.timer = timer or bullet or blitz or coup_rapide
+        self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description
         self.players = []
         self.rounds = []
