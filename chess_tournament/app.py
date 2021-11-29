@@ -2,6 +2,7 @@ from chess_tournament.controllers.home_controller import HomePageController
 from chess_tournament.models.players import Player
 from chess_tournament.models.tournaments import Tournament
 from chess_tournament.controllers.player_controller import PlayerController
+from chess_tournament.controllers.tournament_controller import TournamentController
 import subprocess as sp
 
 
@@ -14,6 +15,11 @@ class Application:
         "view_player": PlayerController.detail,
         "delete_player": PlayerController.delete,
         "edit_player": PlayerController.edit,
+        "list_tournament": TournamentController.list,
+        "view_tournament": TournamentController.detail,
+        "new_tournament": TournamentController.create,
+        "delete_tournament": TournamentController.delete,
+        "edit_tournament": TournamentController.edit
     }
 
     def __init__(self) -> None:
@@ -37,11 +43,12 @@ class Application:
         player_eight = Player(id_=8, first_name='Babe', last_name='Pig',
                               birthday='01.11.2005', gender='M', rank=3)
         tournoi = Tournament(tournament_name='Tournoi', location='Ici',
-                             creation_date='16.11.2021', timer='Blitz',
-                             description='test')
+                             creation_date='16.11.2021', number_of_rounds=4,
+                             timer='Blitz', description='test')
         tournoi2 = Tournament(tournament_name='tournoi2', location='Paris',
-                              creation_date='12.10.2021', timer='bullet',
-                              description='le grand tournoi des débutants en python')
+                              creation_date='12.10.2021',number_of_rounds=4,
+                              timer='bullet', description='le grand tournoi des'
+                                                          ' débutants en python')
         self.store = {
             "players": [
                 player_one, player_two, player_three, player_four, player_five,

@@ -3,17 +3,17 @@ import datetime
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
 from chess_tournament.models.players import Player
-from constants import NUMBER_OF_ROUND
+from constants import NUMBER_OF_ROUNDS
 
 class Tournament:
     """Tournament with is attributes tournament_name, location,
     creation_date, number_of_rounds, timer, description"""
     def __init__(self, tournament_name, location, creation_date,
-                 timer, description):
+                 number_of_rounds, timer, description):
         self.tournament_name = tournament_name
         self.location = location
         self.creation_date = creation_date or datetime.datetime.now()
-        self.number_of_rounds = NUMBER_OF_ROUND
+        self.number_of_rounds = NUMBER_OF_ROUNDS or number_of_rounds
         self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description
         self.players = []
@@ -58,3 +58,19 @@ class Tournament:
                 new_round.add_match(Match(player, opponent))
                 break
         self.rounds.append(new_round)
+
+    def validate(self):
+        return (isinstance(self.tournament_name, str or int)
+                and isinstance(self.location, str)
+                and isinstance(self.number_of_rounds, int)
+                and isinstance(self.timer, str)
+                and isinstance(self.description, str or int))
+
+    def edit(self, tournament_name, location, creation_date,
+                 number_of_rounds, timer, description):
+        self.tournament_name = tournament_name
+        self.location = location
+        self.creation_date = creation_date or datetime.datetime.now()
+        self.number_of_rounds = NUMBER_OF_ROUNDS or number_of_rounds
+        self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
+        self.description = description
