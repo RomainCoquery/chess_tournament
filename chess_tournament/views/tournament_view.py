@@ -33,6 +33,7 @@ class TournamentView:
         print(f"Number_of_rounds: {tournament.number_of_rounds}")
         print(f"Description: {tournament.description}")
 
+        print("1. List_player")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")

@@ -27,7 +27,7 @@ class TournamentController:
     def detail(cls, store, route_params):
         """
         Display one single tournament, the route_params correspond to the
-        tournament id we want to display
+        tournament name we want to display
         """
         try:
             # search the tournament on the store
@@ -36,7 +36,9 @@ class TournamentController:
             # we pass the tournament to the view that will display the tournament
             # info and the next options
             choice = TournamentView.detail_tournament(tournament)
-            if choice.lower() == "q":
+            if choice == "1":
+                return "list_player", None
+            elif choice.lower() == "q":
                 return "quit", None
             elif choice.lower() == "h":
                 return "homepage", None
