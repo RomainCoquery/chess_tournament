@@ -9,7 +9,7 @@ class TournamentController:
         choice, tournament_name = (TournamentView.display_list
                                    (store["tournaments"]))
         if choice == "1":
-            return "view_tournament", tournament_name
+            return "detail_tournament", tournament_name
         elif choice == "2":
             return "new_tournament", None
         elif choice == "3":

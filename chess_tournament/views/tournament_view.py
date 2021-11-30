@@ -9,7 +9,7 @@ class TournamentView:
                   f"{tournament.creation_date}\t{tournament.number_of_rounds}\t"
                   f"{tournament.timer}\t{tournament.description}")
 
-        print("1. View Tournament")
+        print("1. Detail Tournament")
         print("2. New Tournament")
         print("3. Delete tournament")
         print("4. Edit Tournament")

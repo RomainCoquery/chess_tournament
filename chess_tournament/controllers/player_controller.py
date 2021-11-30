@@ -9,7 +9,7 @@ class PlayerController:
         choice, player_id = PlayerView.display_list(store["players"])
 
         if choice == "1":
-            return "view_player", player_id
+            return "detail_player", player_id
         elif choice == "2":
             return "new_player", None
         elif choice == "3":

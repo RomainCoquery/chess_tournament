@@ -7,7 +7,7 @@ class PlayerView:
             print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
                   f"{player.birthday}\t{player.gender}\t{player.rank}")
 
-        print("1. View Player")
+        print("1. Detail Player")
         print("2. New Player")
         print("3. Delete Player")
         print("4. Edit Player")

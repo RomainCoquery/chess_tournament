@@ -60,7 +60,11 @@ class Player:
         self.score = self.score + score
 
     def validate(self):
-        return True
+        return (isinstance(self.id_, int)
+                and isinstance(self.last_name, str)
+                and isinstance(self.first_name, str)
+                and isinstance(self.gender, str)
+                and isinstance(self.rank, int))
 
     def full_name(self):
         """define the full name of player"""
