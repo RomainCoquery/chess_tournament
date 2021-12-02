@@ -57,5 +57,24 @@ class PlayerView:
             "birthday": input(f"Enter new date of birth 'DD.MM.YYYY'"
                          f" [{player.birthday}]: "),
             "gender": str(input(f"Enter new gender [{player.gender}]: ")),
-            "rank": str(input(f"Enter new Rank [{player.rank}]: "))
+            "rank": int(input(f"Enter new Rank [{player.rank}]: "))
         }
+
+    @classmethod
+    def select_list(cls, players):
+        print("Players")
+        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        for player in players:
+            print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
+                  f"{player.birthday}\t{player.gender}\t{player.rank}")
+
+        return [
+            int(input("Enter player_one Id: ")),
+            int(input("Enter player_two Id: ")),
+            int(input("Enter player_three Id: ")),
+            int(input("Enter player_four Id: ")),
+            int(input("Enter player_five Id: ")),
+            int(input("Enter player_six Id: ")),
+            int(input("Enter player_seven Id: ")),
+            int(input("Enter player_eight Id: "))
+        ]

@@ -33,7 +33,6 @@ class TournamentView:
         print(f"Number_of_rounds: {tournament.number_of_rounds}")
         print(f"Description: {tournament.description}")
 
-        print("1. List_player")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")
@@ -41,11 +40,11 @@ class TournamentView:
     @classmethod
     def create_tournament(cls):
         return {
-            "tournament_name": input("Enter a tournament name: "),
-            "location": input("Enter a location: "),
+            "tournament_name": str(input("Enter a tournament name: ")),
+            "location": str(input("Enter a location: ")),
             "creation_date": input("Enter the date: "),
-            "timer": input("Enter timer 'blitz', 'bullet' or 'coup rapide': "),
-            "number_of_rounds": str(input("Enter number of rounds 'default = 4': ")),
+            "timer": str(input("Enter timer 'blitz', 'bullet' or 'coup rapide': ")),
+            "number_of_rounds": input("Enter number of rounds 'default = 4': "),
             "description": input("Enter the description: ")
         }
 

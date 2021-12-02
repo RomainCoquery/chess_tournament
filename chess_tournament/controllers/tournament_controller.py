@@ -1,5 +1,6 @@
 from chess_tournament.models.tournaments import Tournament
 from chess_tournament.views.tournament_view import TournamentView
+from chess_tournament.views.player_view import PlayerView
 
 
 class TournamentController:
@@ -24,6 +25,37 @@ class TournamentController:
             raise Exception("invalid choice")
 
     @classmethod
+    def create(cls, store, route_params=None):
+        # call the view that will return us a dict with the new tournament info
+        data = TournamentView.create_tournament()
+        # You could specify each argument
+        # but it's easier to use `**` to pass the arguments
+        tournament = Tournament(**data)
+        if tournament.validate():
+            # we add the tournament to the store
+            store["tournaments"].append(tournament)
+            data_player = PlayerView.select_list(store["players"])
+            list_player = store["players"]
+            for player_id in data_player:
+                player = None
+                for p in list_player:
+                    if p.id_ == player_id:
+                        player = p
+                        break
+            if player:
+                tournament.players.append(player)
+            else:
+                print("Player not found")
+                input("press ENTER key to continue..")
+                return "homepage"
+        else:
+            print("Error, Data for tournament are wrong!")
+            input("press ENTER key to continue..")
+            return "list_tournament", None
+
+        return "detail_tournament", None
+
+    @classmethod
     def detail(cls, store, route_params):
         """
         Display one single tournament, the route_params correspond to the
@@ -36,32 +68,14 @@ class TournamentController:
             # we pass the tournament to the view that will display the tournament
             # info and the next options
             choice = TournamentView.detail_tournament(tournament)
-            if choice == "1":
-                return "list_player", None
-            elif choice.lower() == "q":
+            if choice.lower() == "q":
                 return "quit", None
             elif choice.lower() == "h":
                 return "homepage", None
         except StopIteration:
             print("No tournament with this name")
+            input("press ENTER key to continue..")
             return "list_tournament", None
-
-    @classmethod
-    def create(cls, store, route_params=None):
-        # call the view that will return us a dict with the new tournament info
-        data = TournamentView.create_tournament()
-        # You could specify each argument
-        # but it's easier to use `**` to pass the arguments
-        tournament = Tournament(**data)
-        if tournament.validate():
-            print("Good, tournament added!")
-        else:
-            print("Error, Data for tournament are wrong!")
-            return "list_tournament", None
-        # we add the tournament to the store
-        store["tournaments"].append(tournament)
-
-        return "list_tournament", None
 
     @classmethod
     def delete(cls, store, route_params):
@@ -71,6 +85,7 @@ class TournamentController:
                             if t.tournament_name != route_params]
         if count_tournaments == len(store["tournaments"]):
             print("No tournament with this name")
+            input("press ENTER key to continue..")
         return "list_tournament", None
 
     @classmethod

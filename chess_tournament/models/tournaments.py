@@ -60,11 +60,8 @@ class Tournament:
         self.rounds.append(new_round)
 
     def validate(self):
-        return (isinstance(self.tournament_name, str or int)
-                and isinstance(self.location, str)
-                and isinstance(self.number_of_rounds, int)
-                and isinstance(self.timer, str)
-                and isinstance(self.description, str or int))
+        return (isinstance(self.tournament_name, str)
+                and isinstance(self.location, str))
 
     def edit(self, tournament_name, location, creation_date,
                  number_of_rounds, timer, description):
