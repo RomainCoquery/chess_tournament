@@ -7,7 +7,7 @@ class PlayerView:
             print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
                   f"{player.birthday}\t{player.gender}\t{player.rank}")
 
-        print("1. Detail Player")
+        print("1. View Player")
         print("2. New Player")
         print("3. Delete Player")
         print("4. Edit Player")
@@ -23,7 +23,7 @@ class PlayerView:
         return choice, extra_info
 
     @classmethod
-    def detail_player(cls, player):
+    def view_player(cls, player):
         print(f"Id: {player.id_}")
         print(f"Last_name: {player.last_name}")
         print(f"First_name: {player.first_name}")

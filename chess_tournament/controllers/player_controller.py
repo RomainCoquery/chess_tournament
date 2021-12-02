@@ -9,7 +9,7 @@ class PlayerController:
         choice, player_id = PlayerView.display_list(store["players"])
 
         if choice == "1":
-            return "detail_player", player_id
+            return "view_player", player_id
         elif choice == "2":
             return "new_player", None
         elif choice == "3":
@@ -52,7 +52,7 @@ class PlayerController:
         return "list_player", None
 
     @classmethod
-    def detail(cls, store, route_params):
+    def view(cls, store, route_params):
         """
         Display one single player, the route_params correspond to the player ID
         we want to display
@@ -63,7 +63,7 @@ class PlayerController:
                           if p.id_ == route_params)
             # we pass the player to the view that will display the player
             # info and the next options
-            choice = PlayerView.detail_player(player)
+            choice = PlayerView.view_player(player)
             if choice.lower() == "q":
                 return "quit", None
             elif choice.lower() == "h":

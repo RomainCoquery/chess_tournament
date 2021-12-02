@@ -10,7 +10,7 @@ class TournamentController:
         choice, tournament_name = (TournamentView.display_list
                                    (store["tournaments"]))
         if choice == "1":
-            return "detail_tournament", tournament_name
+            return "view_tournament", tournament_name
         elif choice == "2":
             return "new_tournament", None
         elif choice == "3":
@@ -47,16 +47,16 @@ class TournamentController:
             else:
                 print("Player not found")
                 input("press ENTER key to continue..")
-                return "homepage"
+                return "homepage", None
         else:
             print("Error, Data for tournament are wrong!")
             input("press ENTER key to continue..")
             return "list_tournament", None
 
-        return "detail_tournament", None
+        return "detail_tournament", tournament.tournament_name
 
     @classmethod
-    def detail(cls, store, route_params):
+    def view(cls, store, route_params):
         """
         Display one single tournament, the route_params correspond to the
         tournament name we want to display
@@ -67,7 +67,7 @@ class TournamentController:
                           if t.tournament_name == route_params)
             # we pass the tournament to the view that will display the tournament
             # info and the next options
-            choice = TournamentView.detail_tournament(tournament)
+            choice = TournamentView.view_tournament(tournament)
             if choice.lower() == "q":
                 return "quit", None
             elif choice.lower() == "h":

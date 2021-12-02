@@ -12,11 +12,11 @@ class Application:
         "homepage": HomePageController.dispatch,
         "list_player": PlayerController.list,
         "new_player": PlayerController.create,
-        "view_player": PlayerController.detail,
+        "view_player": PlayerController.view,
         "delete_player": PlayerController.delete,
         "edit_player": PlayerController.edit,
         "list_tournament": TournamentController.list,
-        "detail_tournament": TournamentController.detail,
+        "view_tournament": TournamentController.view,
         "new_tournament": TournamentController.create,
         "delete_tournament": TournamentController.delete,
         "edit_tournament": TournamentController.edit

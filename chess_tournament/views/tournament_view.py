@@ -9,7 +9,7 @@ class TournamentView:
                   f"{tournament.creation_date}\t{tournament.number_of_rounds}\t"
                   f"{tournament.timer}\t{tournament.description}")
 
-        print("1. Detail Tournament")
+        print("1. View Tournament")
         print("2. New Tournament")
         print("3. Delete tournament")
         print("4. Edit Tournament")
@@ -25,7 +25,7 @@ class TournamentView:
         return choice, extra_info
 
     @classmethod
-    def detail_tournament(cls, tournament):
+    def view_tournament(cls, tournament):
         print(f"Name: {tournament.tournament_name}")
         print(f"Location: {tournament.location}")
         print(f"Creation_date: {tournament.creation_date}")
