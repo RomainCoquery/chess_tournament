@@ -63,3 +63,25 @@ class TournamentView:
             "description": str(input(f"Enter new description"
                                      f" [{tournament.description}]: "))
         }
+
+    @classmethod
+    def detail_tournament(cls, tournament):
+        print(f"Name: {tournament.tournament_name}")
+        print(f"Location: {tournament.location}")
+        print(f"Creation_date: {tournament.creation_date}")
+        print(f"Timer: {tournament.timer}")
+        print(f"Number_of_rounds: {tournament.number_of_rounds}")
+        print(f"Description: {tournament.description}\n")
+
+        print("players")
+        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        for player in tournament.players:
+            print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
+                  f"{player.birthday}\t{player.gender}\t{player.rank}")
+
+        print("Round:None")
+
+        print("1. Start first round")
+        print("Q. Exit")
+        print("H. Homepage")
+        return input("Choice:")

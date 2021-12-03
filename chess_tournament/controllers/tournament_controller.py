@@ -42,12 +42,12 @@ class TournamentController:
                     if p.id_ == player_id:
                         player = p
                         break
-            if player:
-                tournament.players.append(player)
-            else:
-                print("Player not found")
-                input("press ENTER key to continue..")
-                return "homepage", None
+                if player:
+                    tournament.players.append(player)
+                else:
+                    print("Player not found")
+                    input("press ENTER key to continue..")
+                    return "homepage", None
         else:
             print("Error, Data for tournament are wrong!")
             input("press ENTER key to continue..")
@@ -95,3 +95,26 @@ class TournamentController:
         data = TournamentView.edit_tournament(tournament)
         tournament.edit(**data)
         return "list_tournament", None
+
+    @classmethod
+    def detail(cls, store, route_params):
+        import pdb; pdb.set_trace()
+        tournament = next(t for t in store["tournaments"]
+                          if t.tournament_name == route_params)
+        choice = TournamentView.detail_tournament(tournament)
+
+        if choice == "1":
+            Tournament.create_first_round(tournament)
+            print(tournament.rounds[0].name)
+            print(tournament.rounds[0].start_date)
+            for index, match in enumerate(tournament.rounds[0].matches, start=1):
+                match_player1 = match.player1.first_name, match.player1.last_name, match.player1.rank, match.player1.score
+                match_player2 = match.player2.first_name, match.player2.last_name, match.player2.rank, match.player2.score
+                print("Match", index, ":"'\n', *match_player1, "VS",
+                      *match_player2)
+            input("press ENTER key to continue..")
+            return "homepage", None
+        elif choice.lower() == "q":
+            return "quit", None
+        elif choice.lower() == "h":
+            return "homepage", None
