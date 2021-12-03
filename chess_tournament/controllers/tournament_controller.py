@@ -98,7 +98,6 @@ class TournamentController:
 
     @classmethod
     def detail(cls, store, route_params):
-        import pdb; pdb.set_trace()
         tournament = next(t for t in store["tournaments"]
                           if t.tournament_name == route_params)
         choice = TournamentView.detail_tournament(tournament)
