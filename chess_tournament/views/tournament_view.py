@@ -2,12 +2,11 @@ class TournamentView:
 
     @classmethod
     def display_list(cls, tournaments):
-        print("\tTournament_name\tLocation\tCreation_date\tNumber_of_rounds\t"
-              "Timer\tDescription")
+        print("\tTournament_name\tLocation\tCreation_date\tTimer\tDescription")
         for tournament in tournaments:
             print(f"\t{tournament.tournament_name}\t{tournament.location}\t"
-                  f"{tournament.creation_date}\t{tournament.number_of_rounds}\t"
-                  f"{tournament.timer}\t{tournament.description}")
+                  f"{tournament.creation_date}\t{tournament.timer}\t"
+                  f"{tournament.description}")
 
         print("1. View Tournament")
         print("2. New Tournament")
@@ -30,7 +29,6 @@ class TournamentView:
         print(f"Location: {tournament.location}")
         print(f"Creation_date: {tournament.creation_date}")
         print(f"Timer: {tournament.timer}")
-        print(f"Number_of_rounds: {tournament.number_of_rounds}")
         print(f"Description: {tournament.description}")
 
         print("Q. Exit")
@@ -44,7 +42,6 @@ class TournamentView:
             "location": str(input("Enter a location: ")),
             "creation_date": input("Enter the date: "),
             "timer": str(input("Enter timer 'blitz', 'bullet' or 'coup rapide': ")),
-            "number_of_rounds": input("Enter number of rounds 'default = 4': "),
             "description": input("Enter the description: ")
         }
 
@@ -57,8 +54,6 @@ class TournamentView:
                                    f"[{tournament.location}]: ")),
             "creation_date": input(f"Enter new Creation_date "
                                    f"[{tournament.creation_date}]: "),
-            "number_of_rounds": input(f"Enter new Number_of_rounds"
-                         f" [{tournament.number_of_rounds}]: "),
             "timer": str(input(f"Enter new Timer [{tournament.timer}]: ")),
             "description": str(input(f"Enter new description"
                                      f" [{tournament.description}]: "))
@@ -70,18 +65,35 @@ class TournamentView:
         print(f"Location: {tournament.location}")
         print(f"Creation_date: {tournament.creation_date}")
         print(f"Timer: {tournament.timer}")
-        print(f"Number_of_rounds: {tournament.number_of_rounds}")
         print(f"Description: {tournament.description}\n")
 
-        print("players")
+        print("players\n")
         print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
         for player in tournament.players:
             print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
                   f"{player.birthday}\t{player.gender}\t{player.rank}")
 
-        print("Round:None")
+        print("Round: None\n")
 
         print("1. Start first round")
+        print("Q. Exit")
+        print("H. Homepage")
+        return input("Choice:")
+
+    @classmethod
+    def manage_tournament(cls, tournament):
+        print(tournament.rounds[0].name)
+        print(tournament.rounds[0].start_date)
+
+        for index, match in enumerate(tournament.rounds[0].matches, start=1):
+            match_player1 = (match.player1.first_name, match.player1.last_name,
+                             match.player1.rank, match.player1.score)
+            match_player2 = (match.player2.first_name, match.player2.last_name,
+                             match.player2.rank, match.player2.score)
+            print("Match", index, ":"'\n', "Player 1 :" , *match_player1, "VS",
+                 "Player 2 :" , *match_player2)
+
+        print("Enter winner player, 1 or 2, 0 for tie-game for each match")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")

@@ -18,8 +18,13 @@ class Player:
         self.score = self.score + score
 
     def validate(self):
-        return (isinstance(self.id_, int)
-                and isinstance(self.rank, int))
+        return (
+                isinstance(self.id_, int) and
+                isinstance(self.last_name, str) and
+                isinstance(self.first_name, str) and
+                isinstance(self.gender, str) and
+                isinstance(self.rank, int)
+        )
 
     def edit(self, id_, last_name, first_name, birthday, gender, rank):
         self.id_ = id_

@@ -1,7 +1,7 @@
 from chess_tournament.models.tournaments import Tournament
 from chess_tournament.views.tournament_view import TournamentView
 from chess_tournament.views.player_view import PlayerView
-
+from constants import NUMBER_PLAYERS
 
 class TournamentController:
 
@@ -31,7 +31,7 @@ class TournamentController:
         # You could specify each argument
         # but it's easier to use `**` to pass the arguments
         tournament = Tournament(**data)
-        if tournament.validate():
+        if tournament.validate() and len(store["players"]) >= NUMBER_PLAYERS:
             # we add the tournament to the store
             store["tournaments"].append(tournament)
             data_player = PlayerView.select_list(store["players"])
@@ -104,16 +104,20 @@ class TournamentController:
 
         if choice == "1":
             Tournament.create_first_round(tournament)
-            print(tournament.rounds[0].name)
-            print(tournament.rounds[0].start_date)
-            for index, match in enumerate(tournament.rounds[0].matches, start=1):
-                match_player1 = match.player1.first_name, match.player1.last_name, match.player1.rank, match.player1.score
-                match_player2 = match.player2.first_name, match.player2.last_name, match.player2.rank, match.player2.score
-                print("Match", index, ":"'\n', *match_player1, "VS",
-                      *match_player2)
-            input("press ENTER key to continue..")
-            return "homepage", None
+            return "manage_tournament", tournament.tournament_name
         elif choice.lower() == "q":
+            return "quit", None
+        elif choice.lower() == "h":
+            return "homepage", None
+
+    @classmethod
+    def manage(cls, store, route_params):
+        tournament = next(t for t in store["tournaments"]
+                          if t.tournament_name == route_params)
+        choice = TournamentView.manage_tournament(tournament)
+
+
+        if choice.lower() == "q":
             return "quit", None
         elif choice.lower() == "h":
             return "homepage", None

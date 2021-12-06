@@ -20,7 +20,8 @@ class Application:
         "new_tournament": TournamentController.create,
         "delete_tournament": TournamentController.delete,
         "edit_tournament": TournamentController.edit,
-        "detail_tournament": TournamentController.detail
+        "detail_tournament": TournamentController.detail,
+        "manage_tournament":TournamentController.manage,
     }
 
     def __init__(self) -> None:
@@ -43,17 +44,17 @@ class Application:
                               birthday='25.12.1782', gender='F', rank=852)
         player_eight = Player(id_=8, first_name='Babe', last_name='Pig',
                               birthday='01.11.2005', gender='M', rank=3)
-        tournoi = Tournament(tournament_name='Tournoi', location='Ici',
-                             creation_date='16.11.2021', number_of_rounds=4,
+        tournoi = Tournament(tournament_name='tournoi', location='Ici',
+                             creation_date='16.11.2021',
                              timer='Blitz', description='test')
-        tournoi2 = Tournament(tournament_name='tournoi2', location='Paris',
-                              creation_date='12.10.2021',number_of_rounds=4,
+        tournoi2 = Tournament(tournament_name='tournoi p', location='Paris',
+                              creation_date='12.10.2021',
                               timer='bullet', description='le grand tournoi des'
                                                           ' débutants en python')
         self.store = {
             "players": [
                 player_one, player_two, player_three, player_four, player_five,
-                player_six, player_seven, player_eight,
+                player_six, player_seven, player_eight
             ],
             "tournaments": [
                 tournoi, tournoi2
