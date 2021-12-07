@@ -21,7 +21,7 @@ class Application:
         "delete_tournament": TournamentController.delete,
         "edit_tournament": TournamentController.edit,
         "detail_tournament": TournamentController.detail,
-        "manage_tournament":TournamentController.manage,
+        "manage_round":TournamentController.manage,
     }
 
     def __init__(self) -> None:

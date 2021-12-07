@@ -81,19 +81,20 @@ class TournamentView:
         return input("Choice:")
 
     @classmethod
-    def manage_tournament(cls, tournament):
-        print(tournament.rounds[0].name)
-        print(tournament.rounds[0].start_date)
+    def manage_round(cls, rounds):
+        print(f"Name : {rounds.name}")
+        print(f"Creation date : {rounds.start_date}")
 
-        for index, match in enumerate(tournament.rounds[0].matches, start=1):
+        print("\nPlayer 1 First name Last name Rank Score VS "
+              "Player 2 First name Last name Rank Score")
+        for index, match in enumerate(rounds.matches, start=1):
             match_player1 = (match.player1.first_name, match.player1.last_name,
                              match.player1.rank, match.player1.score)
             match_player2 = (match.player2.first_name, match.player2.last_name,
                              match.player2.rank, match.player2.score)
-            print("Match", index, ":"'\n', "Player 1 :" , *match_player1, "VS",
-                 "Player 2 :" , *match_player2)
+            print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
+                  "Player 2 :", *match_player2)
 
-        print("Enter winner player, 1 or 2, 0 for tie-game for each match")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")

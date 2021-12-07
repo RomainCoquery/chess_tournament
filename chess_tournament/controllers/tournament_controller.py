@@ -1,4 +1,5 @@
 from chess_tournament.models.tournaments import Tournament
+from chess_tournament.models.rounds import Round
 from chess_tournament.views.tournament_view import TournamentView
 from chess_tournament.views.player_view import PlayerView
 from constants import NUMBER_PLAYERS
@@ -104,7 +105,7 @@ class TournamentController:
 
         if choice == "1":
             Tournament.create_first_round(tournament)
-            return "manage_tournament", tournament.tournament_name
+            return "manage_round", tournament.rounds[0]
         elif choice.lower() == "q":
             return "quit", None
         elif choice.lower() == "h":
@@ -112,10 +113,8 @@ class TournamentController:
 
     @classmethod
     def manage(cls, store, route_params):
-        tournament = next(t for t in store["tournaments"]
-                          if t.tournament_name == route_params)
-        choice = TournamentView.manage_tournament(tournament)
-
+        rounds =  route_params
+        choice = TournamentView.manage_round(rounds)
 
         if choice.lower() == "q":
             return "quit", None
