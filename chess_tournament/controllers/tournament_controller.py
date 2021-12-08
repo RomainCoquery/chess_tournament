@@ -111,7 +111,9 @@ class TournamentController:
                                     tournament)
         elif choice == "2":
             Tournament.start_other_round(tournament)
-            return "manage_round", (tournament.rounds[int(len(tournament.rounds) - 1)], tournament)
+            return "manage_round", (tournament.rounds
+                                    [int(len(tournament.rounds) - 1)],
+                                    tournament)
         elif choice.lower() == "q":
             return "quit", None
         elif choice.lower() == "h":
