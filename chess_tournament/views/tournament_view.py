@@ -95,6 +95,10 @@ class TournamentView:
             print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
                   "Player 2 :", *match_player2)
 
+        print("1. Set winner match 1: ")
+        print("2. Set winner match 2: ")
+        print("3. Set winner match 3: ")
+        print("4. Set winner match 4: ")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")
