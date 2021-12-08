@@ -68,14 +68,18 @@ class TournamentView:
         print(f"Description: {tournament.description}\n")
 
         print("players\n")
-        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank\tScore")
         for player in tournament.players:
             print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
-                  f"{player.birthday}\t{player.gender}\t{player.rank}")
+                  f"{player.birthday}\t{player.gender}\t{player.rank}\t"
+                  f"{player.score}")
 
-        print("Round: None\n")
+        count_round = len(tournament.rounds)
+
+        print(f"Round: {count_round}\n")
 
         print("1. Start first round")
+        print("2. Start other round")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")
@@ -95,10 +99,12 @@ class TournamentView:
             print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
                   "Player 2 :", *match_player2)
 
+        print("set winners match, 1 for player1, 2 for player2, 0 for tie")
         print("1. Set winner match 1: ")
         print("2. Set winner match 2: ")
         print("3. Set winner match 3: ")
         print("4. Set winner match 4: ")
+        print("5. End Round")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")

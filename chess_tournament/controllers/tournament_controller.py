@@ -107,7 +107,11 @@ class TournamentController:
 
         if choice == "1":
             Tournament.create_first_round(tournament)
-            return "manage_round", tournament.rounds[0]
+            return "manage_round", (tournament.rounds[0],
+                                    tournament)
+        elif choice == "2":
+            Tournament.start_other_round(tournament)
+            return "manage_round", (tournament.rounds[int(len(tournament.rounds) - 1)], tournament)
         elif choice.lower() == "q":
             return "quit", None
         elif choice.lower() == "h":
@@ -115,25 +119,27 @@ class TournamentController:
 
     @classmethod
     def manage(cls, store, route_params):
-        rounds =  route_params
+        rounds, tournament =  route_params
         choice = TournamentView.manage_round(rounds)
 
         if choice == "1":
             Match.set_winner(rounds.matches[0],
                              winner=int(input(f"enter winner: ")))
-            return "manage_round", rounds
+            return "manage_round", (rounds, tournament)
         elif choice == "2":
             Match.set_winner(rounds.matches[1],
                              winner=int(input(f"enter winner: ")))
-            return "manage_round", rounds
+            return "manage_round", (rounds, tournament)
         elif choice == "3":
             Match.set_winner(rounds.matches[2],
                              winner=int(input(f"enter winner: ")))
-            return "manage_round", rounds
+            return "manage_round", (rounds, tournament)
         elif choice == "4":
             Match.set_winner(rounds.matches[3],
                              winner=int(input(f"enter winner: ")))
-            return "manage_round", rounds
+            return "manage_round", (rounds, tournament)
+        elif choice == "5":
+            return "detail_tournament", tournament.tournament_name
         elif choice.lower() == "q":
             return "quit", None
         elif choice.lower() == "h":
