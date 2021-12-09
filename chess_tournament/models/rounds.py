@@ -1,10 +1,10 @@
-import datetime
+from datetime import datetime
 
 
 class Round:
     def __init__(self, name):
         self.name = name
-        self.start_date = datetime.datetime.now()
+        self.start_date = datetime.now().strftime("%d/%m/%Y à %H:%M:%S")
         self.matches = []
 
     def get_players(self):

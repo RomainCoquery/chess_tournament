@@ -100,7 +100,6 @@ class TournamentController:
     def manage(cls, store, route_params):
         rounds, tournament =  route_params
         choice = TournamentView.manage_round(rounds)
-
         if choice == "1":
             Match.set_winner(rounds.matches[0],
                              winner=int(input(f"enter winner: ")))
@@ -119,7 +118,3 @@ class TournamentController:
             return "manage_round", (rounds, tournament)
         elif choice == "5":
             return "detail_tournament", tournament.tournament_name
-        elif choice.lower() == "q":
-            return "quit", None
-        elif choice.lower() == "h":
-            return "homepage", None

@@ -44,12 +44,10 @@ class Application:
         player_eight = Player(id_=8, first_name='Babe', last_name='Pig',
                               birthday='01.11.2005', gender='M', rank=3)
         tournoi = Tournament(tournament_name='tournoi', location='Ici',
-                             creation_date='16.11.2021',
                              timer='Blitz', description='test')
         tournoi2 = Tournament(tournament_name='tournoi p', location='Paris',
-                              creation_date='12.10.2021',
-                              timer='bullet', description='le grand tournoi des'
-                                                          ' débutants en python')
+                              timer='bullet', description=
+                              'le grand tournoi des débutants en python')
         self.store = {
             "players": [
                 player_one, player_two, player_three, player_four, player_five,

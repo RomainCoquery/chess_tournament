@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from constants import NUMBER_OF_ROUNDS
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
@@ -8,11 +8,10 @@ from chess_tournament.models.players import Player
 class Tournament:
     """Tournament with is attributes tournament_name, location,
     creation_date, number_of_rounds, timer, description"""
-    def __init__(self, tournament_name, location, creation_date,
-                timer, description):
+    def __init__(self, tournament_name, location, timer, description):
         self.tournament_name = tournament_name
         self.location = location
-        self.creation_date = creation_date or datetime.datetime.now()
+        self.creation_date = datetime.now().strftime("%d/%m/%Y à %H:%M:%S")
         self.number_of_rounds = NUMBER_OF_ROUNDS
         self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description
@@ -44,6 +43,7 @@ class Tournament:
         new_round = Round(name="Round"+str(len(self.rounds)+1))
         players = sorted(self.players, key=lambda
             player_: (float(player_.score), int(player_.rank)), reverse=True)
+        missing_players = []
         locked_id_ = []
         for player in players:
             if player.id_ in locked_id_:
@@ -57,8 +57,11 @@ class Tournament:
                 opponent.history.append(player.id_)
                 new_round.add_match(Match(player, opponent))
                 break
-        # if len(players) != len(locked_id_):
-
+            if len(players) != len(locked_id_):
+                if player.id_ not in locked_id_:
+                    missing_players.append(player)
+                    for i in range(len(missing_players), step=1):
+                        new_round.add_match(Match(player, player))
         self.rounds.append(new_round)
 
     def validate(self):
@@ -68,11 +71,10 @@ class Tournament:
                 isinstance(self.description, str)
         )
 
-    def edit(self, tournament_name, location, creation_date,
+    def edit(self, tournament_name, location,
                 timer, description):
         self.tournament_name = tournament_name
         self.location = location
-        self.creation_date = creation_date or datetime.datetime.now()
         self.number_of_rounds = NUMBER_OF_ROUNDS
         self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description

@@ -29,7 +29,6 @@ class TournamentView:
         return {
             "tournament_name": str(input("Enter a tournament name: ")),
             "location": str(input("Enter a location: ")),
-            "creation_date": input("Enter the date: "),
             "timer": str(input("Enter timer 'blitz', 'bullet' or 'coup rapide': ")),
             "description": input("Enter the description: ")
         }
@@ -41,8 +40,6 @@ class TournamentView:
                                      f" [{tournament.tournament_name}]: "),
             "location": str(input(f"Enter new Location "
                                    f"[{tournament.location}]: ")),
-            "creation_date": input(f"Enter new Creation_date "
-                                   f"[{tournament.creation_date}]: "),
             "timer": str(input(f"Enter new Timer [{tournament.timer}]: ")),
             "description": str(input(f"Enter new description"
                                      f" [{tournament.description}]: "))
@@ -83,20 +80,22 @@ class TournamentView:
         cls.display_round(rounds)
 
         print("set winners match, 1 for player1, 2 for player2, 0 for tie")
-        print("1. Set winner match 1: ")
-        print("2. Set winner match 2: ")
-        print("3. Set winner match 3: ")
-        print("4. Set winner match 4: ")
-        print("5. End Round")
-        print("Q. Exit")
-        print("H. Homepage")
-        return input("Choice:")
+        if rounds.matches[0].winner is None:
+            print("1. Set winner match 1: ")
+        if rounds.matches[1].winner is None:
+            print("2. Set winner match 2: ")
+        if rounds.matches[2].winner is None:
+            print("3. Set winner match 3: ")
+        if rounds.matches[3].winner is None:
+            print("4. Set winner match 4: ")
+        else:
+            print("5. End Round")
+        return input("choice:")
 
     @classmethod
     def display_round(cls, rounds):
         print(f"\nName : {rounds.name}")
         print(f"Creation date : {rounds.start_date}")
-
         print("\nPlayer 1 First name Last name Rank Score VS "
               "Player 2 First name Last name Rank Score\n")
         for index, match in enumerate(rounds.matches, start=1):
