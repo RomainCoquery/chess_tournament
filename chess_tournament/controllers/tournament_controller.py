@@ -18,10 +18,10 @@ class TournamentController:
             return "delete_tournament", tournament_name
         elif choice == "4":
             return "edit_tournament", tournament_name
-        elif choice.lower() == "q":
-            return "quit", None
         elif choice.lower() == "h":
             return "homepage", None
+        elif choice.lower() == "q":
+            return "quit", None
         else:
             raise Exception("invalid choice")
 
@@ -69,12 +69,11 @@ class TournamentController:
                     input("press ENTER key to continue..")
                     return "homepage", None
         else:
-            print("Error, Data for tournament are wrong!")
+            print("Error, tournament data are wrong!")
             input("press ENTER key to continue..")
             return "list_tournament", None
 
         return "detail_tournament", tournament.tournament_name
-
 
     @classmethod
     def detail(cls, store, route_params):
@@ -91,10 +90,10 @@ class TournamentController:
             return "manage_round", (tournament.rounds
                                     [len(tournament.rounds) - 1],
                                     tournament)
-        elif choice.lower() == "q":
-            return "quit", None
         elif choice.lower() == "h":
             return "homepage", None
+        elif choice.lower() == "q":
+            return "quit", None
 
     @classmethod
     def manage(cls, store, route_params):
