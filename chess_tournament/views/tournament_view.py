@@ -1,3 +1,4 @@
+from chess_tournament.views.player_view import PlayerView
 from constants import NUMBER_OF_ROUNDS
 
 class TournamentView:
@@ -6,9 +7,7 @@ class TournamentView:
     def display_list(cls, tournaments):
         print("\tTournament_name\tLocation\tCreation_date\tTimer\tDescription")
         for tournament in tournaments:
-            print(f"\t{tournament.tournament_name}\t{tournament.location}\t"
-                  f"{tournament.creation_date}\t{tournament.timer}\t"
-                  f"{tournament.description}")
+            cls.display_tournament(tournament)
 
         print("1. Detail Tournament")
         print("2. New Tournament")
@@ -51,18 +50,14 @@ class TournamentView:
 
     @classmethod
     def detail_tournament(cls, tournament):
-        print(f"Name: {tournament.tournament_name}")
-        print(f"Location: {tournament.location}")
-        print(f"Creation_date: {tournament.creation_date}")
-        print(f"Timer: {tournament.timer}")
-        print(f"Description: {tournament.description}\n")
+        print("\tTournament_name\tLocation\tCreation_date\tTimer\tDescription")
+        cls.display_tournament(tournament)
 
-        print("players\n")
-        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank\tScore")
-        for player in tournament.players:
-            print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
-                  f"{player.birthday}\t{player.gender}\t{player.rank}\t"
-                  f"{player.score}")
+        if len(tournament.players) != 0:
+            print("players\n")
+            print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank\tScore")
+            for player in tournament.players:
+                PlayerView.display_player(player)
 
         for rounds in tournament.rounds:
             cls.display_round(rounds)
@@ -78,8 +73,13 @@ class TournamentView:
         return input("Choice:")
 
     @classmethod
-    def manage_round(cls, rounds):
+    def display_tournament(cls, tournament):
+        print(f"\t{tournament.tournament_name}\t{tournament.location}\t"
+              f"{tournament.creation_date}\t{tournament.timer}\t"
+              f"{tournament.description}")
 
+    @classmethod
+    def manage_round(cls, rounds):
         cls.display_round(rounds)
 
         print("set winners match, 1 for player1, 2 for player2, 0 for tie")

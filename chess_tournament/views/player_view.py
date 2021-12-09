@@ -4,8 +4,7 @@ class PlayerView:
     def display_list(cls, players):
         print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
         for player in players:
-            print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
-                  f"{player.birthday}\t{player.gender}\t{player.rank}")
+            cls.display_player(player)
 
         print("1. View Player")
         print("2. New Player")
@@ -24,12 +23,8 @@ class PlayerView:
 
     @classmethod
     def view_player(cls, player):
-        print(f"Id: {player.id_}")
-        print(f"Last_name: {player.last_name}")
-        print(f"First_name: {player.first_name}")
-        print(f"Birthday: {player.birthday}")
-        print(f"Gender: {player.gender}")
-        print(f"Rank: {player.rank}")
+        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        cls.display_player(player)
 
         print("Q. Exit")
         print("H. Homepage")
@@ -65,8 +60,7 @@ class PlayerView:
         print("Players")
         print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
         for player in players:
-            print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
-                  f"{player.birthday}\t{player.gender}\t{player.rank}")
+            cls.display_player(player)
 
         return [
             int(input("Enter player_one Id: ")),
@@ -78,3 +72,8 @@ class PlayerView:
             int(input("Enter player_seven Id: ")),
             int(input("Enter player_eight Id: "))
         ]
+
+    @classmethod
+    def display_player(cls, player):
+        print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
+              f"{player.birthday}\t{player.gender}\t{player.rank}")
