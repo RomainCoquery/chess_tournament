@@ -16,7 +16,6 @@ class Application:
         "delete_player": PlayerController.delete,
         "edit_player": PlayerController.edit,
         "list_tournament": TournamentController.list,
-        "view_tournament": TournamentController.view,
         "new_tournament": TournamentController.create,
         "delete_tournament": TournamentController.delete,
         "edit_tournament": TournamentController.edit,

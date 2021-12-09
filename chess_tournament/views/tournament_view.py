@@ -1,3 +1,5 @@
+from constants import NUMBER_OF_ROUNDS
+
 class TournamentView:
 
     @classmethod
@@ -8,7 +10,7 @@ class TournamentView:
                   f"{tournament.creation_date}\t{tournament.timer}\t"
                   f"{tournament.description}")
 
-        print("1. View Tournament")
+        print("1. Detail Tournament")
         print("2. New Tournament")
         print("3. Delete tournament")
         print("4. Edit Tournament")
@@ -22,18 +24,6 @@ class TournamentView:
             extra_info = input("Enter Tournament Name:")
 
         return choice, extra_info
-
-    @classmethod
-    def view_tournament(cls, tournament):
-        print(f"Name: {tournament.tournament_name}")
-        print(f"Location: {tournament.location}")
-        print(f"Creation_date: {tournament.creation_date}")
-        print(f"Timer: {tournament.timer}")
-        print(f"Description: {tournament.description}")
-
-        print("Q. Exit")
-        print("H. Homepage")
-        return input("Choice:")
 
     @classmethod
     def create_tournament(cls):
@@ -74,30 +64,23 @@ class TournamentView:
                   f"{player.birthday}\t{player.gender}\t{player.rank}\t"
                   f"{player.score}")
 
+        for rounds in tournament.rounds:
+            cls.display_round(rounds)
+
         count_round = len(tournament.rounds)
+        if count_round == 0:
+            print("1. Start first round")
+        elif count_round < NUMBER_OF_ROUNDS:
+            print("2. Start other round")
 
-        print(f"Round: {count_round}\n")
-
-        print("1. Start first round")
-        print("2. Start other round")
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")
 
     @classmethod
     def manage_round(cls, rounds):
-        print(f"Name : {rounds.name}")
-        print(f"Creation date : {rounds.start_date}")
 
-        print("\nPlayer 1 First name Last name Rank Score VS "
-              "Player 2 First name Last name Rank Score")
-        for index, match in enumerate(rounds.matches, start=1):
-            match_player1 = (match.player1.first_name, match.player1.last_name,
-                             match.player1.rank, match.player1.score)
-            match_player2 = (match.player2.first_name, match.player2.last_name,
-                             match.player2.rank, match.player2.score)
-            print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
-                  "Player 2 :", *match_player2)
+        cls.display_round(rounds)
 
         print("set winners match, 1 for player1, 2 for player2, 0 for tie")
         print("1. Set winner match 1: ")
@@ -108,3 +91,18 @@ class TournamentView:
         print("Q. Exit")
         print("H. Homepage")
         return input("Choice:")
+
+    @classmethod
+    def display_round(cls, rounds):
+        print(f"\nName : {rounds.name}")
+        print(f"Creation date : {rounds.start_date}")
+
+        print("\nPlayer 1 First name Last name Rank Score VS "
+              "Player 2 First name Last name Rank Score\n")
+        for index, match in enumerate(rounds.matches, start=1):
+            match_player1 = (match.player1.first_name, match.player1.last_name,
+                             match.player1.rank, match.player1.score)
+            match_player2 = (match.player2.first_name, match.player2.last_name,
+                             match.player2.rank, match.player2.score)
+            print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
+                  "Player 2 :", *match_player2)

@@ -57,6 +57,8 @@ class Tournament:
                 opponent.history.append(player.id_)
                 new_round.add_match(Match(player, opponent))
                 break
+        # if len(players) != len(locked_id_):
+
         self.rounds.append(new_round)
 
     def validate(self):
