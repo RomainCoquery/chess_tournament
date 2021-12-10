@@ -29,7 +29,7 @@ class TournamentView:
         return {
             "tournament_name": str(input("Enter a tournament name: ")),
             "location": str(input("Enter a location: ")),
-            "creation_date": input("Enter creation date DD.MM.YYYY"),
+            "creation_date": input("Enter creation date DD.MM.YYYY: "),
             "timer": str(input("Enter timer 'blitz', 'bullet' or 'coup rapide': ")),
             "description": input("Enter the description: ")
         }
@@ -57,13 +57,13 @@ class TournamentView:
             print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank\tScore")
             for player in tournament.players:
                 PlayerView.display_player(player)
-                for rounds in tournament.rounds:
-                    cls.display_round(rounds)
-                count_round = len(tournament.rounds)
-                if count_round == 0:
-                    print("1. Start first round")
-                elif count_round < NUMBER_OF_ROUNDS:
-                    print("2. Start other round")
+            for rounds in tournament.rounds:
+                cls.display_round(rounds)
+            count_round = len(tournament.rounds)
+            if count_round == 0:
+                print("1. Start first round")
+            elif count_round < NUMBER_OF_ROUNDS:
+                print("2. Start other round")
 
         print("H. Homepage")
         print("Q. Exit")
