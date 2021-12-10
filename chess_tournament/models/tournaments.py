@@ -57,10 +57,11 @@ class Tournament:
                 opponent.history.append(player.id_)
                 new_round.add_match(Match(player, opponent))
                 break
+        for player in players:
             if len(players) != len(locked_id_):
                 if player.id_ not in locked_id_:
                     missing_players.append(player)
-                    for i in range(len(missing_players), step=1):
+                    for i in range(len(missing_players), step=2):
                         new_round.add_match(Match(player, player))
         self.rounds.append(new_round)
 
