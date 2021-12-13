@@ -43,8 +43,8 @@ class Tournament:
         new_round = Round(name="Round"+str(len(self.rounds)+1))
         players = sorted(self.players, key=lambda
             player_: (float(player_.score), int(player_.rank)), reverse=True)
-        missing_players = []
         locked_id_ = []
+        missing_players = []
         for player in players:
             if player.id_ in locked_id_:
                 continue
@@ -57,12 +57,18 @@ class Tournament:
                 opponent.history.append(player.id_)
                 new_round.add_match(Match(player, opponent))
                 break
+            else:
+                missing_players.append(player.id_)
+                locked_id_.remove(player.id_)
         for player in players:
-            if len(players) != len(locked_id_):
-                if player.id_ not in locked_id_:
-                    missing_players.append(player)
-                    for i in range(len(missing_players), step=2):
-                        new_round.add_match(Match(player, player))
+                if player.id_ in missing_players:
+                    locked_id_.append(player.id_)
+                    missing_players.remove(player.id_)
+                    for opponent in players:
+                        if opponent.id_ in missing_players:
+                            locked_id_.append(opponent.id_)
+                            missing_players.remove(opponent.id_)
+                            new_round.add_match(Match(player, opponent))
         self.rounds.append(new_round)
 
     def validate(self):

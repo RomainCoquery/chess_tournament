@@ -109,10 +109,12 @@ class Tournament:
         self.rounds.append(first_round)
 
     def start_other_round(self):
+        """Create other round and the matches from this one"""
         new_round = Round(name="Round"+str(len(self.rounds)+1))
         players = sorted(self.players, key=lambda
             player_: (float(player_.score), int(player_.rank)), reverse=True)
         locked_id_ = []
+        missing_players = []
         for player in players:
             if player.id_ in locked_id_:
                 continue
@@ -125,6 +127,18 @@ class Tournament:
                 opponent.history.append(player.id_)
                 new_round.add_match(Match(player, opponent))
                 break
+            else:
+                missing_players.append(player.id_)
+                locked_id_.remove(player.id_)
+        for player in players:
+                if player.id_ in missing_players:
+                    locked_id_.append(player.id_)
+                    missing_players.remove(player.id_)
+                    for opponent in players:
+                        if opponent.id_ in missing_players:
+                            locked_id_.append(opponent.id_)
+                            missing_players.remove(opponent.id_)
+                            new_round.add_match(Match(player, opponent))
         self.rounds.append(new_round)
 
     def __repr__(self):
@@ -190,6 +204,7 @@ player_seven = Player(id_=7, first_name='Bea', last_name='Beo',
 player_eight = Player(id_=8, first_name='Babe', last_name='Pig',
                       birthday='01.11.2005', gender='M', rank=3)
 
+
 tournoi.add_tournament_player(player_eight)
 tournoi.add_tournament_player(player_seven)
 tournoi.add_tournament_player(player_six)
@@ -204,18 +219,15 @@ tournoi.create_first_round()
 for index, match in enumerate(tournoi.rounds[0].matches, start=1):
     match_player1 = match.player1.first_name, match.player1.last_name, match.player1.rank, match.player1.score
     match_player2 = match.player2.first_name, match.player2.last_name, match.player2.rank, match.player2.score
-    print("Match",index,":"'\n', *match_player1, "VS", *match_player2)
+    print("Match", index, ":"'\n', *match_player1, "VS", *match_player2)
 
-tournoi.rounds[0].matches[0].set_winner(1)
-tournoi.rounds[0].matches[1].set_winner(2)
-tournoi.rounds[0].matches[2].set_winner(2)
+
+tournoi.rounds[0].matches[0].set_winner(0)
+tournoi.rounds[0].matches[1].set_winner(1)
+tournoi.rounds[0].matches[2].set_winner(0)
 tournoi.rounds[0].matches[3].set_winner(0)
 
-for index, match in enumerate(tournoi.rounds[0].matches, start=1):
-    match_player1 = match.player1.first_name, match.player1.last_name, match.player1.rank, match.player1.score
-    match_player2 = match.player2.first_name, match.player2.last_name, match.player2.rank, match.player2.score
-    print("Match",index,":"'\n', *match_player1, "VS", *match_player2)
-
+print(tournoi.rounds[0].name)
 print(tournoi.rounds[0].matches[0])
 print(tournoi.rounds[0].matches[1])
 print(tournoi.rounds[0].matches[2])
@@ -251,4 +263,3 @@ print(tournoi.rounds[3].matches[0])
 print(tournoi.rounds[3].matches[1])
 print(tournoi.rounds[3].matches[2])
 print(tournoi.rounds[3].matches[3])
-
