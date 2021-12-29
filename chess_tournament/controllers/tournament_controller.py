@@ -15,8 +15,6 @@ class TournamentController:
         elif choice == "2":
             return "new_tournament", None
         elif choice == "3":
-            return "delete_tournament", tournament_name
-        elif choice == "4":
             return "edit_tournament", tournament_name
         elif choice.lower() == "h":
             return "homepage", None
@@ -24,17 +22,6 @@ class TournamentController:
             return "quit", None
         else:
             raise Exception("invalid choice")
-
-    @classmethod
-    def delete(cls, store, route_params):
-        count_tournaments = len(store["tournaments"])
-        # remove the tournament from the store
-        store["tournaments"] = [t for t in store["tournaments"]
-                            if t.tournament_name != route_params]
-        if count_tournaments == len(store["tournaments"]):
-            print("No tournament with this name")
-            input("press ENTER key to continue..")
-        return "list_tournament", None
 
     @classmethod
     def edit(cls, store, route_params):
@@ -90,6 +77,8 @@ class TournamentController:
             return "manage_round", (tournament.rounds
                                     [len(tournament.rounds) - 1],
                                     tournament)
+        elif choice.lower() == "l":
+            return  "list_tournament", None
         elif choice.lower() == "h":
             return "homepage", None
         elif choice.lower() == "q":

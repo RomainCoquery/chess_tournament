@@ -11,15 +11,14 @@ class TournamentView:
 
         print("1. Detail Tournament")
         print("2. New Tournament")
-        print("3. Delete tournament")
-        print("4. Edit Tournament")
-        print("Q. Exit")
+        print("3. Edit Tournament")
         print("H. Homepage")
+        print("Q. Exit")
 
         choice = input("Choice:")
         extra_info = None
 
-        if choice in ("1", "3", "4"):
+        if choice in ("1", "3"):
             extra_info = input("Enter Tournament Name:")
 
         return choice, extra_info
@@ -65,6 +64,7 @@ class TournamentView:
             elif count_round < NUMBER_OF_ROUNDS:
                 print("2. Start other round")
 
+        print("L. List tournament")
         print("H. Homepage")
         print("Q. Exit")
         return input("Choice:")

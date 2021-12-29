@@ -8,15 +8,14 @@ class PlayerView:
 
         print("1. View Player")
         print("2. New Player")
-        print("3. Delete Player")
-        print("4. Edit Player")
-        print("Q. Exit")
+        print("3. Edit Player")
         print("H. Homepage")
+        print("Q. Exit")
 
         choice = input("Choice:")
         extra_info = None
 
-        if choice in ("1", "3", "4"):
+        if choice in ("1", "3"):
             extra_info = int(input("Enter Player Id:"))
 
         return choice, extra_info
@@ -26,8 +25,10 @@ class PlayerView:
         print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
         cls.display_player(player)
 
-        print("Q. Exit")
+        print("L. List player")
         print("H. Homepage")
+        print("Q. Exit")
+
         return input("Choice:")
 
     @classmethod

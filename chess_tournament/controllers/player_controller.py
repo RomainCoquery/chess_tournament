@@ -13,8 +13,6 @@ class PlayerController:
         elif choice == "2":
             return "new_player", None
         elif choice == "3":
-            return "delete_player", player_id
-        elif choice == "4":
             return "edit_player", player_id
         elif choice.lower() == "q":
             return "quit", None
@@ -42,16 +40,6 @@ class PlayerController:
         return "list_player", None
 
     @classmethod
-    def delete(cls, store, route_params):
-        count_players = len(store["players"])
-        # remove the player from the store
-        store["players"] = [p for p in store["players"]
-                            if p.id_ != route_params]
-        if count_players == len(store["players"]):
-            print("No player with this id")
-        return "list_player", None
-
-    @classmethod
     def view(cls, store, route_params):
         """
         Display one single player, the route_params correspond to the player ID
@@ -64,7 +52,9 @@ class PlayerController:
             # we pass the player to the view that will display the player
             # info and the next options
             choice = PlayerView.view_player(player)
-            if choice.lower() == "q":
+            if choice.lower() == "l":
+                return "list_player", None
+            elif choice.lower() == "q":
                 return "quit", None
             elif choice.lower() == "h":
                 return "homepage", None

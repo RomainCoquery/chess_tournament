@@ -61,14 +61,14 @@ class Tournament:
                 missing_players.append(player.id_)
                 locked_id_.remove(player.id_)
         for player in players:
-                if player.id_ in missing_players:
-                    locked_id_.append(player.id_)
-                    missing_players.remove(player.id_)
-                    for opponent in players:
-                        if opponent.id_ in missing_players:
-                            locked_id_.append(opponent.id_)
-                            missing_players.remove(opponent.id_)
-                            new_round.add_match(Match(player, opponent))
+            if player.id_ in missing_players:
+                locked_id_.append(player.id_)
+                missing_players.remove(player.id_)
+                for opponent in players:
+                    if opponent.id_ in missing_players:
+                        locked_id_.append(opponent.id_)
+                        missing_players.remove(opponent.id_)
+                        new_round.add_match(Match(player, opponent))
         self.rounds.append(new_round)
 
     def validate(self):
