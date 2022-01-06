@@ -7,9 +7,9 @@ from chess_tournament.models.players import Player
 class Tournament:
     """Tournament with is attributes tournament_name, location,
     creation_date, number_of_rounds, timer, description"""
-    def __init__(self, tournament_name, location, creation_date, timer,
+    def __init__(self, name, location, creation_date, timer,
                  description):
-        self.tournament_name = tournament_name
+        self.name = name
         self.location = location
         self.creation_date = creation_date
         self.number_of_rounds = NUMBER_OF_ROUNDS
@@ -33,8 +33,8 @@ class Tournament:
         above = players[:middle_index]
         below = players[middle_index:]
         for player1, player2 in zip(above, below):
-            player1.history.append(player2.id_)
-            player2.history.append(player1.id_)
+            player1.history.append(player2.id)
+            player2.history.append(player1.id)
             first_round.add_match(Match(player1, player2))
         self.rounds.append(first_round)
 
@@ -42,32 +42,32 @@ class Tournament:
         """Create other round and the matches from this one"""
         new_round = Round(name="Round"+str(len(self.rounds)+1))
         players = sorted(self.players, key=lambda
-            player_: (float(player_.score), int(player_.rank)), reverse=True)
-        locked_id_ = []
+            player: (float(player.score), int(player.rank)), reverse=True)
+        locked_id = []
         missing_players = []
         for player in players:
-            if player.id_ in locked_id_:
+            if player.id in locked_id:
                 continue
-            locked_id_.append(player.id_)
+            locked_id.append(player.id)
             for opponent in players:
-                if opponent.id_ in locked_id_ or opponent.id_ in player.history:
+                if opponent.id in locked_id or opponent.id in player.history:
                     continue
-                locked_id_.append(opponent.id_)
-                player.history.append(opponent.id_)
-                opponent.history.append(player.id_)
+                locked_id.append(opponent.id)
+                player.history.append(opponent.id)
+                opponent.history.append(player.id)
                 new_round.add_match(Match(player, opponent))
                 break
             else:
-                missing_players.append(player.id_)
-                locked_id_.remove(player.id_)
+                missing_players.append(player.id)
+                locked_id.remove(player.id)
         for player in players:
-            if player.id_ in missing_players:
-                locked_id_.append(player.id_)
-                missing_players.remove(player.id_)
+            if player.id in missing_players:
+                locked_id.append(player.id)
+                missing_players.remove(player.id)
                 for opponent in players:
-                    if opponent.id_ in missing_players:
-                        locked_id_.append(opponent.id_)
-                        missing_players.remove(opponent.id_)
+                    if opponent.id in missing_players:
+                        locked_id.append(opponent.id)
+                        missing_players.remove(opponent.id)
                         new_round.add_match(Match(player, opponent))
         self.rounds.append(new_round)
 
@@ -78,9 +78,9 @@ class Tournament:
                 isinstance(self.description, str)
         )
 
-    def edit(self, tournament_name, location, creation_date, timer,
+    def edit(self, name, location, creation_date, timer,
              description):
-        self.tournament_name = tournament_name
+        self.name = name
         self.location = location
         self.creation_date = creation_date
         self.number_of_rounds = NUMBER_OF_ROUNDS

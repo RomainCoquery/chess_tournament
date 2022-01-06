@@ -1,5 +1,5 @@
 from chess_tournament.controllers.home_controller import HomePageController
-from chess_tournament.models.players import Player
+from chess_tournament.models.players import PlayerManager
 from chess_tournament.models.tournaments import Tournament
 from chess_tournament.controllers.player_controller import PlayerController
 from chess_tournament.controllers.tournament_controller import TournamentController
@@ -25,34 +25,16 @@ class Application:
         self.route = "homepage"
         self.exit = False
         self.route_params = None
-        player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
-                            birthday='18.10.1900', gender='M', rank=20)
-        player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
-                            birthday='12.10.2020', gender='F', rank=10)
-        player_three = Player(id_=3, first_name='baby', last_name='run run',
-                              birthday='22.22.2001', gender='M', rank=30)
-        player_four = Player(id_=4, first_name='Pepe', last_name='Bo',
-                             birthday='04.06.1995', gender='F', rank=40)
-        player_five = Player(id_=5, first_name='Pablo', last_name='Picasso',
-                             birthday='02.03.2000', gender='M', rank=523)
-        player_six = Player(id_=6, first_name='Marc', last_name='Bambi',
-                            birthday='01.02.3026', gender='F', rank=235)
-        player_seven = Player(id_=7, first_name='Bea', last_name='Beo',
-                              birthday='25.12.1782', gender='F', rank=852)
-        player_eight = Player(id_=8, first_name='Babe', last_name='Pig',
-                              birthday='01.11.2005', gender='M', rank=3)
-        tournoi = Tournament(tournament_name='tournoi', location='Ici',
+        all_players = PlayerManager().get_all()
+        tournoi = Tournament(name='tournoi', location='Ici',
                              creation_date='16.10.2000', timer='Blitz',
                              description='test')
-        tournoi2 = Tournament(tournament_name='tournoi p', location='Paris',
+        tournoi2 = Tournament(name='tournoi p', location='Paris',
                               creation_date='16.10.2000' ,timer='bullet',
                               description='le grand tournoi des débutants'
                                           ' en python')
         self.store = {
-            "players": [
-                player_one, player_two, player_three, player_four, player_five,
-                player_six, player_seven, player_eight
-            ],
+            "players": all_players,
             "tournaments": [
                 tournoi, tournoi2
             ]

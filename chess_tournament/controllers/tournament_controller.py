@@ -25,7 +25,7 @@ class TournamentController:
 
     @classmethod
     def edit(cls, store, route_params):
-        tournament = next(t for t in store["tournaments"] if t.tournament_name
+        tournament = next(t for t in store["tournaments"] if t.name
                           == route_params)
         data = TournamentView.edit_tournament(tournament)
         tournament.edit(**data)
@@ -46,7 +46,7 @@ class TournamentController:
             for player_id in data_player:
                 player = None
                 for p in list_player:
-                    if p.id_ == player_id:
+                    if p.id == player_id:
                         player = p
                         break
                 if player:
@@ -60,12 +60,12 @@ class TournamentController:
             input("press ENTER key to continue..")
             return "list_tournament", None
 
-        return "detail_tournament", tournament.tournament_name
+        return "detail_tournament", tournament.name
 
     @classmethod
     def detail(cls, store, route_params):
         tournament = next(t for t in store["tournaments"]
-                          if t.tournament_name == route_params)
+                          if t.name == route_params)
         choice = TournamentView.detail_tournament(tournament)
 
         if choice == "1":
@@ -105,4 +105,4 @@ class TournamentController:
                              winner=int(input(f"enter winner: ")))
             return "manage_round", (rounds, tournament)
         elif choice == "5":
-            return "detail_tournament", tournament.tournament_name
+            return "detail_tournament", tournament.name

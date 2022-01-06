@@ -34,7 +34,7 @@ class PlayerView:
     @classmethod
     def create_player(cls):
         return {
-            "id_": int(input("Enter an Id: ")),
+            "id": int(input("Enter an Id: ")),
             "last_name": str(input("Enter a Last_name: ")),
             "first_name": str(input("Enter a First_name: ")),
             "birthday": input("Enter date of birth 'DD.MM.YYYY': "),
@@ -45,7 +45,7 @@ class PlayerView:
     @classmethod
     def edit_player(cls, player):
         return {
-            "id_": int(input(f"Enter new Id [{player.id_}]: ")),
+            "id": int(input(f"Enter new Id [{player.id}]: ")),
             "last_name": str(input(f"Enter new Last_name "
                                    f"[{player.last_name}]: ")),
             "first_name": str(input(f"Enter new First_name "
@@ -76,5 +76,5 @@ class PlayerView:
 
     @classmethod
     def display_player(cls, player):
-        print(f"\t{player.id_}\t{player.last_name}\t{player.first_name}\t"
+        print(f"\t{player.id}\t{player.last_name}\t{player.first_name}\t"
               f"{player.birthday}\t{player.gender}\t{player.rank}")

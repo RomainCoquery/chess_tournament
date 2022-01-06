@@ -5,7 +5,7 @@ class TournamentView:
 
     @classmethod
     def display_list(cls, tournaments):
-        print("\tTournament_name\tLocation\tCreation_date\tTimer\tDescription")
+        print("\tName\tLocation\tCreation_date\tTimer\tDescription")
         for tournament in tournaments:
             cls.display_tournament(tournament)
 
@@ -26,7 +26,7 @@ class TournamentView:
     @classmethod
     def create_tournament(cls):
         return {
-            "tournament_name": str(input("Enter a tournament name: ")),
+            "name": str(input("Enter a tournament name: ")),
             "location": str(input("Enter a location: ")),
             "creation_date": input("Enter creation date DD.MM.YYYY: "),
             "timer": str(input("Enter timer 'blitz', 'bullet' or 'coup rapide': ")),
@@ -36,8 +36,8 @@ class TournamentView:
     @classmethod
     def edit_tournament(cls, tournament):
         return {
-            "tournament_name": input(f"Enter new Tournament_name "
-                                     f" [{tournament.tournament_name}]: "),
+            "name": input(f"Enter new Tournament_name "
+                                     f" [{tournament.name}]: "),
             "location": str(input(f"Enter new Location "
                                    f"[{tournament.location}]: ")),
             "creation_date": input(f"Enter a new creation date "
@@ -49,7 +49,7 @@ class TournamentView:
 
     @classmethod
     def detail_tournament(cls, tournament):
-        print("\tTournament_name\tLocation\tCreation_date\tTimer\tDescription")
+        print("\tName\tLocation\tCreation_date\tTimer\tDescription")
         cls.display_tournament(tournament)
         if len(tournament.players) != 0:
             print("players\n")
@@ -71,7 +71,7 @@ class TournamentView:
 
     @classmethod
     def display_tournament(cls, tournament):
-        print(f"\t{tournament.tournament_name}\t{tournament.location}\t"
+        print(f"\t{tournament.name}\t{tournament.location}\t"
               f"{tournament.creation_date}\t{tournament.timer}\t"
               f"{tournament.description}")
 
