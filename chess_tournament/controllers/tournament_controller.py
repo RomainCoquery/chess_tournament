@@ -1,4 +1,4 @@
-from chess_tournament.models.tournaments import Tournament
+from chess_tournament.models.tournaments import Tournament, TournamentManager
 from chess_tournament.models.matchs import Match
 from chess_tournament.views.tournament_view import TournamentView
 from chess_tournament.views.player_view import PlayerView
@@ -24,14 +24,6 @@ class TournamentController:
             raise Exception("invalid choice")
 
     @classmethod
-    def edit(cls, store, route_params):
-        tournament = next(t for t in store["tournaments"] if t.name
-                          == route_params)
-        data = TournamentView.edit_tournament(tournament)
-        tournament.edit(**data)
-        return "list_tournament", None
-
-    @classmethod
     def create(cls, store, route_params=None):
         # call the view that will return us a dict with the new tournament info
         data = TournamentView.create_tournament()
@@ -41,14 +33,10 @@ class TournamentController:
         if tournament.validate() and len(store["players"]) >= NUMBER_PLAYERS:
             # we add the tournament to the store
             store["tournaments"].append(tournament)
+            TournamentManager().create_tournament(tournament)
             data_player = PlayerView.select_list(store["players"])
-            list_player = store["players"]
             for player_id in data_player:
-                player = None
-                for p in list_player:
-                    if p.id == player_id:
-                        player = p
-                        break
+                player = next(p for p in store["players"] if p.id == player_id)
                 if player:
                     tournament.players.append(player)
                 else:
@@ -83,6 +71,14 @@ class TournamentController:
             return "homepage", None
         elif choice.lower() == "q":
             return "quit", None
+
+    @classmethod
+    def edit(cls, store, route_params):
+        tournament = next(t for t in store["tournaments"] if t.name
+                          == route_params)
+        data = TournamentView.edit_tournament(tournament)
+        tournament.edit(**data)
+        return "list_tournament", None
 
     @classmethod
     def manage(cls, store, route_params):

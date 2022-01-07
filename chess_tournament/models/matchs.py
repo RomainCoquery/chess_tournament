@@ -20,3 +20,9 @@ class Match:
         else:
             self.player1.update_score(0.5)
             self.player2.update_score(0.5)
+
+    def serialized_match(self):
+        return{
+            'player1': self.player1.id,
+            'player2': self.player2.id,
+        }

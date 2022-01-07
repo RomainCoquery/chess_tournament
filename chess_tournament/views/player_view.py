@@ -9,6 +9,8 @@ class PlayerView:
         print("1. View Player")
         print("2. New Player")
         print("3. Edit Player")
+        print("4. Sort players by last_name")
+        print("5. Sort players by rank")
         print("H. Homepage")
         print("Q. Exit")
 

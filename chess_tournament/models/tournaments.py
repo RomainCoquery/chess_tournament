@@ -1,3 +1,5 @@
+from pathlib import Path
+from tinydb import TinyDB, Query
 from constants import NUMBER_OF_ROUNDS
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
@@ -86,3 +88,27 @@ class Tournament:
         self.number_of_rounds = NUMBER_OF_ROUNDS
         self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description
+
+    def serialized_tournament(self):
+        return {
+            'name': self.name,
+            'location': self.location,
+            'creation_date': self.creation_date,
+            'number_of_rounds' :self.number_of_rounds,
+            'timer': self.timer,
+            'description': self.description,
+            'players': [player.id for player in self.players],
+            'rounds': [rounds.serialized_round() for rounds in self.rounds]
+        }
+
+
+class TournamentManager:
+    def __init__(self):
+        database_path = Path(__file__).parent / "database"
+        db = TinyDB(database_path / 'db.json')
+        self.tournaments_table = db.table('tournaments')
+
+    def create_tournament(self, tournament):
+        serialized_tournament = tournament.serialized_tournament()
+        tournament_name = self.tournaments_table.insert(serialized_tournament)
+        tournament.name = tournament_name

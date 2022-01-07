@@ -14,6 +14,15 @@ class PlayerController:
             return "new_player", None
         elif choice == "3":
             return "edit_player", player_id
+        elif choice.lower() == "4":
+            store["players"] = sorted(store["players"],
+                                      key=lambda p: p.last_name)
+            return "list_player", None
+        elif choice.lower() == "5":
+            store["players"] = sorted(store["players"],
+                                      key=lambda p: (int(p.rank)),
+                                      reverse=True)
+            return "list_player", None
         elif choice.lower() == "h":
             return "homepage", None
         elif choice.lower() == "q":
