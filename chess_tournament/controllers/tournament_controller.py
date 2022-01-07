@@ -31,9 +31,6 @@ class TournamentController:
         # but it's easier to use `**` to pass the arguments
         tournament = Tournament(**data)
         if tournament.validate() and len(store["players"]) >= NUMBER_PLAYERS:
-            # we add the tournament to the store
-            store["tournaments"].append(tournament)
-            TournamentManager().create_tournament(tournament)
             data_player = PlayerView.select_list(store["players"])
             for player_id in data_player:
                 player = next(p for p in store["players"] if p.id == player_id)
@@ -43,6 +40,9 @@ class TournamentController:
                     print("Player not found")
                     input("press ENTER key to continue..")
                     return "homepage", None
+            # we add the tournament to the store
+            store["tournaments"].append(tournament)
+            TournamentManager().create_tournament(tournament)
         else:
             print("Error, tournament data are wrong!")
             input("press ENTER key to continue..")
