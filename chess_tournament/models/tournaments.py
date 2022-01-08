@@ -85,7 +85,6 @@ class Tournament:
         self.name = name
         self.location = location
         self.creation_date = creation_date
-        self.number_of_rounds = NUMBER_OF_ROUNDS
         self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description
 
@@ -94,7 +93,6 @@ class Tournament:
             'name': self.name,
             'location': self.location,
             'creation_date': self.creation_date,
-            'number_of_rounds' :self.number_of_rounds,
             'timer': self.timer,
             'description': self.description,
             'players': [player.id for player in self.players],
@@ -110,5 +108,28 @@ class TournamentManager:
 
     def create_tournament(self, tournament):
         serialized_tournament = tournament.serialized_tournament()
-        tournament_name = self.tournaments_table.insert(serialized_tournament)
-        tournament.name = tournament_name
+        tournament_id = self.tournaments_table.insert(serialized_tournament)
+        tournament.id = tournament_id
+
+    def delete_all(self):
+        self.tournaments_table.truncate()
+
+    def get_all(self):
+        serialized_tournaments = self.tournaments_table.all()
+        all_tournaments = []
+        for tournament_dict in serialized_tournaments:
+            tournament= Tournament(
+                            name=tournament_dict["name"],
+                            location=tournament_dict["location"],
+                            creation_date=tournament_dict["creation_date"],
+                            timer=tournament_dict["timer"],
+                            description=tournament_dict["description"],
+                            )
+            all_tournaments.append(tournament)
+        return all_tournaments
+
+    def edit_tournament(self, tournament):
+        serialized_tournament = tournament.serialized_tournament()
+        q = Query()
+        self.tournaments_table.update(serialized_tournament,
+                                      q.name == tournament.name)

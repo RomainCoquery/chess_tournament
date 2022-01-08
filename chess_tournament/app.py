@@ -26,10 +26,10 @@ class Application:
         self.exit = False
         self.route_params = None
         all_players = PlayerManager().get_all()
-        tournoi = Tournament(name='tournoi', location='Ici',
+        tournoi = Tournament(name='tournament', location='Ici',
                              creation_date='16.10.2000', timer='Blitz',
                              description='test')
-        tournoi2 = Tournament(name='tournoi p', location='Paris',
+        tournoi2 = Tournament(name='tournoi', location='Paris',
                               creation_date='16.10.2000' ,timer='bullet',
                               description='le grand tournoi des débutants'
                                           ' en python')
