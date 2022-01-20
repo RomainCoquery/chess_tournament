@@ -21,7 +21,8 @@ class TournamentController:
         elif choice.lower() == "q":
             return "quit", None
         else:
-            raise Exception("invalid choice")
+            print("invalid value")
+            return "list_tournament"
 
     @classmethod
     def create(cls, store, route_params=None):
@@ -40,14 +41,13 @@ class TournamentController:
                     print("Player not found")
                     input("press ENTER key to continue..")
                     return "homepage", None
-            # we add the tournament to the store
-            store["tournaments"].append(tournament)
-            TournamentManager().create_tournament(tournament)
         else:
             print("Error, tournament data are wrong!")
             input("press ENTER key to continue..")
             return "list_tournament", None
-
+        # we add the tournament to the store
+        store["tournaments"].append(tournament)
+        TournamentManager().create_tournament(tournament)
         return "detail_tournament", tournament.name
 
     @classmethod
@@ -55,6 +55,7 @@ class TournamentController:
         tournament = next(t for t in store["tournaments"]
                           if t.name == route_params)
         choice = TournamentView.detail_tournament(tournament)
+        TournamentManager().edit_tournament(tournament)
 
         if choice == "1":
             Tournament.create_first_round(tournament)

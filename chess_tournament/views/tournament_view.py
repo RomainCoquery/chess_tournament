@@ -36,8 +36,8 @@ class TournamentView:
     @classmethod
     def edit_tournament(cls, tournament):
         return {
-            "name": input(f"Enter new Tournament_name "
-                                     f" [{tournament.name}]: "),
+            "name": str(input(f"Enter new Tournament_name "
+                                     f" [{tournament.name}]: ")),
             "location": str(input(f"Enter new Location "
                                    f"[{tournament.location}]: ")),
             "creation_date": input(f"Enter a new creation date "

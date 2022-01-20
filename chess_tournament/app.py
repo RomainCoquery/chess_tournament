@@ -1,6 +1,6 @@
 from chess_tournament.controllers.home_controller import HomePageController
 from chess_tournament.models.players import PlayerManager
-from chess_tournament.models.tournaments import Tournament
+from chess_tournament.models.tournaments import TournamentManager
 from chess_tournament.controllers.player_controller import PlayerController
 from chess_tournament.controllers.tournament_controller import TournamentController
 import subprocess as sp
@@ -26,18 +26,20 @@ class Application:
         self.exit = False
         self.route_params = None
         all_players = PlayerManager().get_all()
-        tournoi = Tournament(name='tournament', location='Ici',
+        all_tournaments = TournamentManager().get_all(["players"])
+        '''tournoi = Tournament(name='tournament', location='Ici',
                              creation_date='16.10.2000', timer='Blitz',
                              description='test')
         tournoi2 = Tournament(name='tournoi', location='Paris',
                               creation_date='16.10.2000' ,timer='bullet',
                               description='le grand tournoi des débutants'
-                                          ' en python')
+                                          ' en python')'''
         self.store = {
             "players": all_players,
-            "tournaments": [
-                tournoi, tournoi2
-            ]
+            "tournaments": all_tournaments
+            # "tournaments": [
+                # tournoi, tournoi2
+            # ]
         }
 
     def run(self):

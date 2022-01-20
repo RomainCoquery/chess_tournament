@@ -3,7 +3,7 @@ from tinydb import TinyDB, Query
 from constants import NUMBER_OF_ROUNDS
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
-from chess_tournament.models.players import Player
+from chess_tournament.models.players import Player, PlayerManager
 
 
 class Tournament:
@@ -74,6 +74,7 @@ class Tournament:
         self.rounds.append(new_round)
 
     def validate(self):
+        """validate input data by user"""
         return (
                 isinstance(self.location, str) and
                 isinstance(self.timer, str) and
@@ -82,6 +83,7 @@ class Tournament:
 
     def edit(self, name, location, creation_date, timer,
              description):
+        """edit a tournament by user"""
         self.name = name
         self.location = location
         self.creation_date = creation_date
@@ -96,7 +98,7 @@ class Tournament:
             'timer': self.timer,
             'description': self.description,
             'players': [player.id for player in self.players],
-            'rounds': [rounds.serialized_round() for rounds in self.rounds]
+            'rounds': [round.serialized_round() for round in self.rounds]
         }
 
 
@@ -114,10 +116,16 @@ class TournamentManager:
     def delete_all(self):
         self.tournaments_table.truncate()
 
-    def get_all(self):
-        serialized_tournaments = self.tournaments_table.all()
+    def get_all(self, store):
+        import pdb; pdb.set_trace()
+        players_ids = []
         all_tournaments = []
+        serialized_tournaments = self.tournaments_table.all()
         for tournament_dict in serialized_tournaments:
+            for id in tournament_dict['players']:
+                for player in store["players"]:
+                    if player.id == id:
+                        players_ids.append(player)
             tournament= Tournament(
                             name=tournament_dict["name"],
                             location=tournament_dict["location"],
@@ -125,6 +133,8 @@ class TournamentManager:
                             timer=tournament_dict["timer"],
                             description=tournament_dict["description"],
                             )
+            tournament.players = players_ids
+            tournament.rounds = Round.get_all(store, tournament_dict["rounds"])
             all_tournaments.append(tournament)
         return all_tournaments
 
