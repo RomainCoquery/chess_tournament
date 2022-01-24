@@ -9,11 +9,6 @@ class Round:
         self.end_date = None
         self.matches = []
 
-    def get_players(self):
-        """Get all the players from the round"""
-        return [player for match in self.matches for player in
-                match.get_players()]
-
     def add_match(self, match):
         """add matchs in the round"""
         self.matches.append(match)
@@ -33,11 +28,13 @@ class Round:
         }
 
     @classmethod
-    def get_all(cls, store, round_dict):
-        rounds = []
-        for r in round_dict:
-            round = Round(r['name'])
-            round.start_date = r['start_date'] if r['start_date'] else None
-            round.end_date = r['end_date'] if r['end_date'] else None
-            round.matches = Match.get_all(store, r['matches'])
-            rounds.append(round)
+    def get_all(cls, store, match_dict):
+        rounds_ = []
+        for r in match_dict:
+            rounds = Round(r['name'])
+            rounds.start_date = (r['start_date']) if r['start_date'] else None
+            rounds.end_date = (r['end_date']) if r['end_date'] else None
+            rounds.matches = Match.get_all(store, r['matches'])
+            rounds_.append(rounds)
+
+        return rounds_

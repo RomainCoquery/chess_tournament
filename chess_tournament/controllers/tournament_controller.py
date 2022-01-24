@@ -79,6 +79,8 @@ class TournamentController:
                           == route_params)
         data = TournamentView.edit_tournament(tournament)
         tournament.edit(**data)
+        TournamentManager().edit_tournament(tournament)
+
         return "list_tournament", None
 
     @classmethod

@@ -25,22 +25,13 @@ class Application:
         self.route = "homepage"
         self.exit = False
         self.route_params = None
-        all_players = PlayerManager().get_all()
-        all_tournaments = TournamentManager().get_all(["players"])
-        '''tournoi = Tournament(name='tournament', location='Ici',
-                             creation_date='16.10.2000', timer='Blitz',
-                             description='test')
-        tournoi2 = Tournament(name='tournoi', location='Paris',
-                              creation_date='16.10.2000' ,timer='bullet',
-                              description='le grand tournoi des débutants'
-                                          ' en python')'''
         self.store = {
-            "players": all_players,
-            "tournaments": all_tournaments
-            # "tournaments": [
-                # tournoi, tournoi2
-            # ]
+            "players": [],
+            "tournaments": []
         }
+
+        self.store["players"] = PlayerManager().get_all()
+        self.store["tournaments"] = TournamentManager().get_all(self.store)
 
     def run(self):
         while not self.exit:

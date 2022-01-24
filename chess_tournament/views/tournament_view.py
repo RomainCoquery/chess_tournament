@@ -1,4 +1,3 @@
-from chess_tournament.views.player_view import PlayerView
 from constants import NUMBER_OF_ROUNDS
 
 class TournamentView:
@@ -53,9 +52,11 @@ class TournamentView:
         cls.display_tournament(tournament)
         if len(tournament.players) != 0:
             print("players\n")
-            print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank\tScore")
+            print("\tId\tFull_name\tBirthday\tGender\tRank\tScore")
             for player in tournament.players:
-                PlayerView.display_player(player)
+                print(f"\t{player.id}\t{player.full_name()}"
+                      f"\t{player.birthday}\t{player.gender}\t{player.rank}\t"
+                      f"{player.score}")
             for rounds in tournament.rounds:
                 cls.display_round(rounds)
             count_round = len(tournament.rounds)
@@ -96,12 +97,12 @@ class TournamentView:
     def display_round(cls, rounds):
         print(f"\nName : {rounds.name}")
         print(f"Creation date : {rounds.start_date}")
-        print("\nPlayer 1 First name Last name Rank Score VS "
-              "Player 2 First name Last name Rank Score\n")
+        print("\nPlayer 1 Full name Rank Score VS "
+              "Player 2 Full name Rank Score\n")
         for index, match in enumerate(rounds.matches, start=1):
-            match_player1 = (match.player1.first_name, match.player1.last_name,
+            match_player1 = (match.player1.full_name(),
                              match.player1.rank, match.player1.score)
-            match_player2 = (match.player2.first_name, match.player2.last_name,
+            match_player2 = (match.player2.full_name(),
                              match.player2.rank, match.player2.score)
             print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
                   "Player 2 :", *match_player2)

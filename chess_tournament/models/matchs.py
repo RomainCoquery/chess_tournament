@@ -6,10 +6,6 @@ class Match:
         self.player2 = player2
         self.winner = None
 
-    def get_players(self):
-        """Get all the players from the match"""
-        return [self.player1, self.player2]
-
     def set_winner(self, winner):
         """Define winner from the match"""
         self.winner = winner
@@ -24,10 +20,12 @@ class Match:
     def serialized_match(self):
         if self.winner is None:
             id = self.winner
-        elif self.winner is False:
-            id = False
+        elif self.winner == 1:
+            id = self.player1.id
+        elif self.winner == 2:
+            id = self.player2.id
         else:
-            id = self.winner.id
+            id = self.player1.id, self.player2.id
 
         return {
             'player1': self.player1.id,
@@ -36,23 +34,21 @@ class Match:
         }
 
     @classmethod
-    def get_all(cls,store, match_dict):
+    def get_all(cls, store, match_dict):
         matches = []
         winner = None
         player1 = None
         player2 = None
         for m in match_dict:
             for p in store["players"]:
-                if p.id == m['player1']:
+                if p.id == (m['player1']):
                     player1 = p
-                if p.id == m['player2']:
+                if p.id == (m['player2']):
                     player2 = p
-                if p.id == m['winner']:
+                if p.id == (m['winner']):
                     winner = p
                 elif m['winner'] is None:
                     winner = None
-                elif not m['winner']:
-                    winner = False
 
             match = Match(player1=player1, player2=player2)
             match.winner = winner

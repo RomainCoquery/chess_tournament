@@ -38,7 +38,7 @@ class Player:
 
     def full_name(self):
         """define the full name of player"""
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.last_name} {self.first_name}"
 
     def serialized_player(self):
         return {

@@ -2,7 +2,7 @@ class PlayerView:
 
     @classmethod
     def display_list(cls, players):
-        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        print("\tId\tFull_name\tBirthday\tGender\tRank")
         for player in players:
             cls.display_player(player)
 
@@ -24,7 +24,7 @@ class PlayerView:
 
     @classmethod
     def view_player(cls, player):
-        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        print("\tId\tFull_name\tBirthday\tGender\tRank")
         cls.display_player(player)
 
         print("L. List player")
@@ -61,7 +61,7 @@ class PlayerView:
     @classmethod
     def select_list(cls, players):
         print("Players")
-        print("\tId\tLast_name\tFirst_name\tBirthday\tGender\tRank")
+        print("\tId\tFull_name\tBirthday\tGender\tRank")
         for player in players:
             cls.display_player(player)
 
@@ -78,5 +78,5 @@ class PlayerView:
 
     @classmethod
     def display_player(cls, player):
-        print(f"\t{player.id}\t{player.last_name}\t{player.first_name}\t"
-              f"{player.birthday}\t{player.gender}\t{player.rank}")
+        print(f"\t{player.id}\t{player.full_name()}\t{player.birthday}\t"
+              f"{player.gender}\t{player.rank}")

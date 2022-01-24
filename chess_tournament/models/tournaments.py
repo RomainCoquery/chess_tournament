@@ -3,7 +3,7 @@ from tinydb import TinyDB, Query
 from constants import NUMBER_OF_ROUNDS
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
-from chess_tournament.models.players import Player, PlayerManager
+from chess_tournament.models.players import Player
 
 
 class Tournament:
@@ -117,24 +117,22 @@ class TournamentManager:
         self.tournaments_table.truncate()
 
     def get_all(self, store):
-        import pdb; pdb.set_trace()
-        players_ids = []
         all_tournaments = []
         serialized_tournaments = self.tournaments_table.all()
         for tournament_dict in serialized_tournaments:
+            tournament = Tournament(
+                name=tournament_dict["name"],
+                location=tournament_dict["location"],
+                creation_date=tournament_dict["creation_date"],
+                timer=tournament_dict["timer"],
+                description=tournament_dict["description"],
+            )
+            players_ids = []
             for id in tournament_dict['players']:
-                for player in store["players"]:
-                    if player.id == id:
-                        players_ids.append(player)
-            tournament= Tournament(
-                            name=tournament_dict["name"],
-                            location=tournament_dict["location"],
-                            creation_date=tournament_dict["creation_date"],
-                            timer=tournament_dict["timer"],
-                            description=tournament_dict["description"],
-                            )
+                player = next(p for p in store["players"] if p.id == id)
+                players_ids.append(player)
             tournament.players = players_ids
-            tournament.rounds = Round.get_all(store, tournament_dict["rounds"])
+            tournament.rounds = Round.get_all(store, tournament_dict['rounds'])
             all_tournaments.append(tournament)
         return all_tournaments
 
