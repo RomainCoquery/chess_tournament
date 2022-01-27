@@ -1,5 +1,6 @@
 from chess_tournament.views.home_view import HomeView
 
+
 class HomePageController:
 
     @classmethod

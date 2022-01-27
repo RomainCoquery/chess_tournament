@@ -12,12 +12,7 @@ class Player:
         self.birthday = birthday
         self.gender = gender
         self.rank = rank
-        self.score = 0
         self.history = []
-
-    def update_score(self, score):
-        """update player score after match"""
-        self.score = self.score + score
 
     def validate(self):
         return (
@@ -61,9 +56,6 @@ class PlayerManager:
         serialized_player = player.serialized_player()
         player_id = self.players_table.insert(serialized_player)
         player.id = player_id
-
-    def delete_all(self):
-        self.players_table.truncate()
 
     def get_all(self):
         serialized_players = self.players_table.all()

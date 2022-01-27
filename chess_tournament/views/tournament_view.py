@@ -1,23 +1,37 @@
-from constants import NUMBER_OF_ROUNDS
+from constants import NUMBER_PLAYERS
+
+
+def win(winner, player):
+    if winner is None:
+        return' '
+    if winner is False:
+        return'☺  '
+    elif winner.id == player.id:
+        return'☺  '
+    else:
+        return' '
+
 
 class TournamentView:
 
     @classmethod
     def display_list(cls, tournaments):
+        print('--------------------------------------------------------------')
+        print("[              List Tournaments                              ]")
+        print('--------------------------------------------------------------')
         print("\tName\tLocation\tCreation_date\tTimer\tDescription")
         for tournament in tournaments:
             cls.display_tournament(tournament)
 
         print("1. Detail Tournament")
         print("2. New Tournament")
-        print("3. Edit Tournament")
         print("H. Homepage")
         print("Q. Exit")
 
         choice = input("Choice:")
         extra_info = None
 
-        if choice in ("1", "3"):
+        if choice in "1":
             extra_info = input("Enter Tournament Name:")
 
         return choice, extra_info
@@ -33,48 +47,24 @@ class TournamentView:
         }
 
     @classmethod
-    def edit_tournament(cls, tournament):
-        return {
-            "name": str(input(f"Enter new Tournament_name "
-                                     f" [{tournament.name}]: ")),
-            "location": str(input(f"Enter new Location "
-                                   f"[{tournament.location}]: ")),
-            "creation_date": input(f"Enter a new creation date "
-                                   f"[{tournament.creation_date}]: "),
-            "timer": str(input(f"Enter new Timer [{tournament.timer}]: ")),
-            "description": str(input(f"Enter new description"
-                                     f" [{tournament.description}]: "))
-        }
-
-    @classmethod
     def detail_tournament(cls, tournament):
+        print('--------------------------------------------------------------')
+        print("[              Detail Tournament                             ]")
+        print('--------------------------------------------------------------')
         print("\tName\tLocation\tCreation_date\tTimer\tDescription")
         cls.display_tournament(tournament)
-        if len(tournament.players) != 0:
+        if len(tournament.players) >= NUMBER_PLAYERS:
             print("players\n")
-            print("\tId\tFull_name\tBirthday\tGender\tRank\tScore")
+            print("\tId\tFull_name\tBirthday\tGender\tRank")
             for player in tournament.players:
-                print(f"\t{player.id}\t{player.full_name()}"
-                      f"\t{player.birthday}\t{player.gender}\t{player.rank}\t"
-                      f"{player.score}")
+                cls.display_player(player)
             for rounds in tournament.rounds:
                 cls.display_round(rounds)
-            count_round = len(tournament.rounds)
-            if count_round == 0:
-                print("1. Start first round")
-            elif count_round < NUMBER_OF_ROUNDS:
-                print("2. Start other round")
 
         print("L. List tournament")
         print("H. Homepage")
         print("Q. Exit")
         return input("Choice:")
-
-    @classmethod
-    def display_tournament(cls, tournament):
-        print(f"\t{tournament.name}\t{tournament.location}\t"
-              f"{tournament.creation_date}\t{tournament.timer}\t"
-              f"{tournament.description}")
 
     @classmethod
     def manage_round(cls, rounds):
@@ -91,18 +81,61 @@ class TournamentView:
             print("4. Set winner match 4: ")
         else:
             print("5. End Round")
-        return input("choice:")
+
+        choice = input("Choice:")
+        extra_info = None
+
+        if choice in ("1", "2", "3", "4"):
+            extra_info = int(input("Enter Winner:"))
+
+        return choice, extra_info
+
+    @classmethod
+    def finished_tournament(cls, tournament):
+        print('--------------------------------------------------------------')
+        print("[              Resume Tournament                             ]")
+        print('--------------------------------------------------------------')
+        print("\tName\tLocation\tCreation_date\tTimer\tDescription")
+        cls.display_tournament(tournament)
+        print("players\n")
+        print("\tId\tFull_name\tBirthday\tGender\tRank\tScore")
+        for k, v in tournament.players_scores.items():
+            player = next(p for p in tournament.players if str(p.id) == str(k))
+            score = v
+            print(f"\t{player.id}\t{player.full_name()}"
+                  f"\t{player.birthday}\t{player.gender}\t{player.rank}\t{score}")
+        for rounds in tournament.rounds:
+            cls.display_round(rounds)
+
+        print("L. List tournament")
+        print("H. Homepage")
+        print("Q. Exit")
+        return input("Choice:")
+
+    @classmethod
+    def display_tournament(cls, tournament):
+        print(f"\t{tournament.name}\t{tournament.location}\t"
+              f"{tournament.creation_date}\t{tournament.timer}\t"
+              f"{tournament.description}")
 
     @classmethod
     def display_round(cls, rounds):
-        print(f"\nName : {rounds.name}")
+        print('--------------------------------------------------------------')
+        print(f"[               Name : {rounds.name}                        ]")
+        print('--------------------------------------------------------------')
         print(f"Creation date : {rounds.start_date}")
-        print("\nPlayer 1 Full name Rank Score VS "
-              "Player 2 Full name Rank Score\n")
+        print(f"End date : {rounds.end_date}")
+        print("\nPlayer 1 Full name Rank Winner VS "
+              "Player 2 Full name Rank Winner\n")
         for index, match in enumerate(rounds.matches, start=1):
             match_player1 = (match.player1.full_name(),
-                             match.player1.rank, match.player1.score)
+                             match.player1.rank, win(match.winner, match.player1))
             match_player2 = (match.player2.full_name(),
-                             match.player2.rank, match.player2.score)
+                             match.player2.rank, win(match.winner, match.player2))
             print("Match", index, ":"'\n', "Player 1 :", *match_player1, "VS",
                   "Player 2 :", *match_player2)
+
+    @classmethod
+    def display_player(cls, player):
+        print(f"\t{player.id}\t{player.full_name()}"
+              f"\t{player.birthday}\t{player.gender}\t{player.rank}\t")

@@ -2,6 +2,9 @@ class PlayerView:
 
     @classmethod
     def display_list(cls, players):
+        print('--------------------------------------------------------------')
+        print("[                   List players                             ]")
+        print('--------------------------------------------------------------')
         print("\tId\tFull_name\tBirthday\tGender\tRank")
         for player in players:
             cls.display_player(player)
@@ -24,6 +27,9 @@ class PlayerView:
 
     @classmethod
     def view_player(cls, player):
+        print('--------------------------------------------------------------')
+        print("[                   View player                              ]")
+        print('--------------------------------------------------------------')
         print("\tId\tFull_name\tBirthday\tGender\tRank")
         cls.display_player(player)
 
@@ -51,16 +57,18 @@ class PlayerView:
             "last_name": str(input(f"Enter new Last_name "
                                    f"[{player.last_name}]: ")),
             "first_name": str(input(f"Enter new First_name "
-                                   f"[{player.first_name}]: ")),
+                                    f"[{player.first_name}]: ")),
             "birthday": input(f"Enter new date of birth 'DD.MM.YYYY'"
-                         f" [{player.birthday}]: "),
+                              f" [{player.birthday}]: "),
             "gender": str(input(f"Enter new gender [{player.gender}]: ")),
             "rank": int(input(f"Enter new Rank [{player.rank}]: "))
         }
 
     @classmethod
     def select_list(cls, players):
-        print("Players")
+        print('--------------------------------------------------------------')
+        print("[                     Players                                ]")
+        print('--------------------------------------------------------------')
         print("\tId\tFull_name\tBirthday\tGender\tRank")
         for player in players:
             cls.display_player(player)

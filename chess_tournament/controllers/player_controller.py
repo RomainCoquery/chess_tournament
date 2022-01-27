@@ -20,8 +20,7 @@ class PlayerController:
             return "list_player", None
         elif choice.lower() == "5":
             store["players"] = sorted(store["players"],
-                                      key=lambda p: (int(p.rank)),
-                                      reverse=True)
+                                      key=lambda p: (int(p.rank)), reverse=True)
             return "list_player", None
         elif choice.lower() == "h":
             return "homepage", None

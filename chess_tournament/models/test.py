@@ -3,6 +3,7 @@ import datetime
 PLAYERS_PER_TOURNAMENT = 8
 NUMBER_OF_ROUND = 4
 
+
 class Match:
     def __init__(self, player1, player2):
         self.player1 = player1
@@ -27,6 +28,7 @@ class Match:
     def __repr__(self):
         return f"{self.player1} {self.player2}"
 
+
 class Round:
     def __init__(self, name):
         self.name = name
@@ -42,6 +44,7 @@ class Round:
 
     def __repr__(self):
         return f"{self.name} {self.start_date} {self.matches}"
+
 
 class Player:
     """Player with is attributes id_player, last_name, first_name,
@@ -75,6 +78,7 @@ class Player:
                f"{self.birthday} {self.gender} {self.rank} {self.score} " \
                f"{self.history} "
 
+
 class Tournament:
     """Tournament with is attributes tournament_name, location,
     creation_date, number_of_rounds, timer, description"""
@@ -94,10 +98,11 @@ class Tournament:
             self.players.append(player)
 
     def create_first_round(self):
-        """Create first round and the matches from this one"""
+        """
+        Create first round and the matches from this one
+        """
         first_round = Round(name="Round1")
-        players = sorted(self.players, key=lambda
-            player: player.rank, reverse=False)
+        players = sorted(self.players, key=lambda player: player.rank, reverse=False)
         length = len(players)
         middle_index = length // 2
         above = players[:middle_index]
@@ -111,8 +116,7 @@ class Tournament:
     def start_other_round(self):
         """Create other round and the matches from this one"""
         new_round = Round(name="Round"+str(len(self.rounds)+1))
-        players = sorted(self.players, key=lambda
-            player_: (float(player_.score), int(player_.rank)), reverse=True)
+        players = sorted(self.players, key=lambda player_: (float(player_.score), int(player_.rank)), reverse=True)
         locked_id_ = []
         missing_players = []
         for player in players:
@@ -131,20 +135,21 @@ class Tournament:
                 missing_players.append(player.id_)
                 locked_id_.remove(player.id_)
         for player in players:
-                if player.id_ in missing_players:
-                    locked_id_.append(player.id_)
-                    missing_players.remove(player.id_)
-                    for opponent in players:
-                        if opponent.id_ in missing_players:
-                            locked_id_.append(opponent.id_)
-                            missing_players.remove(opponent.id_)
-                            new_round.add_match(Match(player, opponent))
+            if player.id_ in missing_players:
+                locked_id_.append(player.id_)
+                missing_players.remove(player.id_)
+                for opponent in players:
+                    if opponent.id_ in missing_players:
+                        locked_id_.append(opponent.id_)
+                        missing_players.remove(opponent.id_)
+                        new_round.add_match(Match(player, opponent))
         self.rounds.append(new_round)
 
     def __repr__(self):
         return f"{self.tournament_name} {self.location} {self.creation_date} " \
                f"{self.number_of_rounds} {self.timer} {self.description} " \
                f"{self.players} {self.rounds}"
+
 
 '''
 tournoi = Tournament(tournament_name='le tournoi', location='Paris',
@@ -188,7 +193,7 @@ tournoi = Tournament(tournament_name='Tournoi', location='Ici',
                      creation_date='16.11.2021', timer='Blitz', description='test')
 
 player_one = Player(id_=1, first_name='Breton', last_name='Pedro',
-                 birthday='18.10.1900', gender='M', rank=20)
+                    birthday='18.10.1900', gender='M', rank=20)
 player_two = Player(id_=2, first_name='Raoul', last_name='bernard',
                     birthday='12.10.2020', gender='F', rank=10)
 player_three = Player(id_=3, first_name='baby', last_name='run run',

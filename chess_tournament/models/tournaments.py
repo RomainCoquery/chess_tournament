@@ -1,5 +1,6 @@
 from pathlib import Path
 from tinydb import TinyDB, Query
+
 from constants import NUMBER_OF_ROUNDS
 from chess_tournament.models.rounds import Round
 from chess_tournament.models.matchs import Match
@@ -18,6 +19,7 @@ class Tournament:
         self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
         self.description = description
         self.players = []
+        self.players_scores = {}
         self.rounds = []
 
     def add_tournament_player(self, player):
@@ -25,11 +27,25 @@ class Tournament:
         if isinstance(player, Player):
             self.players.append(player)
 
+    def score_management(self, winner, match):
+        if winner == 1:
+            match.winner = match.player1
+            self.players_scores[match.player1.id] = self.players_scores.get(match.player1.id, 0) + 1
+        elif winner == 2:
+            match.winner = match.player2
+            self.players_scores[match.player2.id] = self.players_scores.get(match.player2.id, 0) + 1
+        elif winner == 0:
+            match.winner = False
+            self.players_scores[match.player1.id] = self.players_scores.get(match.player1.id, 0) + 0.5
+            self.players_scores[match.player2.id] = self.players_scores.get(match.player2.id, 0) + 0.5
+
     def create_first_round(self):
         """Create first round and the matches from this one"""
+        for player in self.players:
+            self.players_scores[player.id] = 0
+
         first_round = Round(name="Round1")
-        players = sorted(self.players, key=lambda
-            player: player.rank, reverse=False)
+        players = sorted(self.players, key=lambda p: p.rank, reverse=False)
         length = len(players)
         middle_index = length // 2
         above = players[:middle_index]
@@ -43,8 +59,11 @@ class Tournament:
     def start_other_round(self):
         """Create other round and the matches from this one"""
         new_round = Round(name="Round"+str(len(self.rounds)+1))
-        players = sorted(self.players, key=lambda
-            player: (float(player.score), int(player.rank)), reverse=True)
+        for player in self.players:
+            player.score = self.players_scores.get(player.id, 0)
+
+        players = sorted(self.players, key=lambda p: (p.score, p.rank),
+                         reverse=True)
         locked_id = []
         missing_players = []
         for player in players:
@@ -81,15 +100,6 @@ class Tournament:
                 isinstance(self.description, str)
         )
 
-    def edit(self, name, location, creation_date, timer,
-             description):
-        """edit a tournament by user"""
-        self.name = name
-        self.location = location
-        self.creation_date = creation_date
-        self.timer = timer or 'bullet' or 'blitz' or 'coup_rapide'
-        self.description = description
-
     def serialized_tournament(self):
         return {
             'name': self.name,
@@ -98,8 +108,12 @@ class Tournament:
             'timer': self.timer,
             'description': self.description,
             'players': [player.id for player in self.players],
+            'players_scores': self.players_scores,
             'rounds': [round.serialized_round() for round in self.rounds]
         }
+
+    def finished_tournament(self):
+        return len(self.rounds) == NUMBER_OF_ROUNDS and self.rounds[3].finished_rounds()
 
 
 class TournamentManager:
@@ -113,9 +127,6 @@ class TournamentManager:
         tournament_id = self.tournaments_table.insert(serialized_tournament)
         tournament.id = tournament_id
 
-    def delete_all(self):
-        self.tournaments_table.truncate()
-
     def get_all(self, store):
         all_tournaments = []
         serialized_tournaments = self.tournaments_table.all()
@@ -128,11 +139,12 @@ class TournamentManager:
                 description=tournament_dict["description"],
             )
             players_ids = []
-            for id in tournament_dict['players']:
+            for id in tournament_dict["players"]:
                 player = next(p for p in store["players"] if p.id == id)
                 players_ids.append(player)
             tournament.players = players_ids
-            tournament.rounds = Round.get_all(store, tournament_dict['rounds'])
+            tournament.rounds = Round.get_all(store, tournament_dict["rounds"])
+            tournament.players_scores = tournament_dict["players_scores"]
             all_tournaments.append(tournament)
         return all_tournaments
 

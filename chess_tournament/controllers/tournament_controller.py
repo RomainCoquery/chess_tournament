@@ -1,8 +1,9 @@
+from datetime import datetime
 from chess_tournament.models.tournaments import Tournament, TournamentManager
-from chess_tournament.models.matchs import Match
 from chess_tournament.views.tournament_view import TournamentView
 from chess_tournament.views.player_view import PlayerView
 from constants import NUMBER_PLAYERS
+
 
 class TournamentController:
 
@@ -14,8 +15,6 @@ class TournamentController:
             return "detail_tournament", tournament_name
         elif choice == "2":
             return "new_tournament", None
-        elif choice == "3":
-            return "edit_tournament", tournament_name
         elif choice.lower() == "h":
             return "homepage", None
         elif choice.lower() == "q":
@@ -52,56 +51,59 @@ class TournamentController:
 
     @classmethod
     def detail(cls, store, route_params):
-        tournament = next(t for t in store["tournaments"]
-                          if t.name == route_params)
+        tournament = next(t for t in store["tournaments"] if t.name == route_params)
+        if tournament.finished_tournament():
+            return "finished", tournament.name
+        if not tournament.rounds:
+            Tournament.create_first_round(tournament)
+            return "manage_round", (tournament.rounds[0], tournament)
+        if tournament.rounds[-1].finished_rounds() and not tournament.finished_tournament():
+            Tournament.start_other_round(tournament)
+            return "manage_round", (tournament.rounds[len(tournament.rounds) - 1], tournament)
+
         choice = TournamentView.detail_tournament(tournament)
         TournamentManager().edit_tournament(tournament)
 
-        if choice == "1":
-            Tournament.create_first_round(tournament)
-            return "manage_round", (tournament.rounds[0],
-                                    tournament)
-        elif choice == "2":
-            Tournament.start_other_round(tournament)
-            return "manage_round", (tournament.rounds
-                                    [len(tournament.rounds) - 1],
-                                    tournament)
-        elif choice.lower() == "l":
-            return  "list_tournament", None
+        if choice.lower() == "l":
+            return "list_tournament", None
         elif choice.lower() == "h":
             return "homepage", None
         elif choice.lower() == "q":
             return "quit", None
 
-    @classmethod
-    def edit(cls, store, route_params):
-        tournament = next(t for t in store["tournaments"] if t.name
-                          == route_params)
-        data = TournamentView.edit_tournament(tournament)
-        tournament.edit(**data)
-        TournamentManager().edit_tournament(tournament)
-
         return "list_tournament", None
 
     @classmethod
     def manage(cls, store, route_params):
-        rounds, tournament =  route_params
-        choice = TournamentView.manage_round(rounds)
+        rounds, tournament = route_params
+        choice, extra_info = TournamentView.manage_round(rounds)
         if choice == "1":
-            Match.set_winner(rounds.matches[0],
-                             winner=int(input(f"enter winner: ")))
+            tournament.score_management(extra_info, rounds.matches[0])
             return "manage_round", (rounds, tournament)
         elif choice == "2":
-            Match.set_winner(rounds.matches[1],
-                             winner=int(input(f"enter winner: ")))
+            tournament.score_management(extra_info, rounds.matches[1])
             return "manage_round", (rounds, tournament)
         elif choice == "3":
-            Match.set_winner(rounds.matches[2],
-                             winner=int(input(f"enter winner: ")))
+            tournament.score_management(extra_info, rounds.matches[2])
             return "manage_round", (rounds, tournament)
         elif choice == "4":
-            Match.set_winner(rounds.matches[3],
-                             winner=int(input(f"enter winner: ")))
+            tournament.score_management(extra_info, rounds.matches[3])
             return "manage_round", (rounds, tournament)
         elif choice == "5":
+            rounds.end_date = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
             return "detail_tournament", tournament.name
+
+    @classmethod
+    def finished(cls, store, route_params):
+        tournament = next(t for t in store["tournaments"] if t.name == route_params)
+        choice = TournamentView.finished_tournament(tournament)
+        TournamentManager().edit_tournament(tournament)
+
+        if choice.lower() == "l":
+            return "list_tournament", None
+        elif choice.lower() == "h":
+            return "homepage", None
+        elif choice.lower() == "q":
+            return "quit", None
+
+        return "list_tournament", None

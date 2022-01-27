@@ -2,7 +2,9 @@ class HomeView:
 
     @classmethod
     def home(cls):
-        print("Welcome to Chess Tournament\n")
+        print('--------------------------------------------------------------')
+        print("[          Welcome to Chess Tournament                       ]")
+        print('--------------------------------------------------------------')
         print("1. List Players")
         print("2. New Player")
         print("3. List Tournaments")

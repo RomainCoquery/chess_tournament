@@ -27,6 +27,9 @@ class Round:
             'matches': matches
         }
 
+    def finished_rounds(self):
+        return all(match.winner is not None for match in self.matches)
+
     @classmethod
     def get_all(cls, store, match_dict):
         rounds_ = []
