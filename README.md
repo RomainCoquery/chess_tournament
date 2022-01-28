@@ -27,7 +27,7 @@ flake8 --format=html --htmldir=flake-report
 python -m chess_tournament
 ```
 #### Plan de l'application
-#####Page d'accueil:
+##### Page d'accueil:
 ```
 --------------------------------------------------------------
 [          Welcome to Chess Tournament                       ]
@@ -43,7 +43,7 @@ Choice:
 ***De cette page vous pouvez avec le choix 2 Créer un nouveau joueur directement,
 avec le choix 4 et si vous avez enregistré minimum 8 joueurs avant, vous pouvez 
 créer un nouveau tournoi***
-#####1 Liste des joueurs:
+##### 1 Liste des joueurs:
 ```
 --------------------------------------------------------------
 [                   List players                             ]
@@ -61,7 +61,7 @@ Q. Exit
 ***Dans cette page, vos joueurs apparaissent, vous pouvez les voir en détail avec le choix 1,
 créer un nouveau joueur choix 2, modifier un joueur choix 3, trier choix 4 par nom et 5 par classement,
 H pour revenir à la page principale, Q pour quitter l'application***
-#####1 Liste des tournois:
+##### 3 Liste des tournois:
 ```
 --------------------------------------------------------------
 [              List Tournaments                              ]
@@ -74,8 +74,8 @@ H. Homepage
 Q. Exit
 
 ```
-***Dans cette page, vos tournois apparaissent, vous pouvez les voir en détail et les reprendre
+Dans cette page, vos tournois apparaissent, vous pouvez les voir en détail et les reprendre
 s'ils ne sont pas terminés avec le choix 1,créer un nouveau tournoi choix 2,
-H pour revenir à la page principale, Q pour quitter l'application***
-####Où se trouve la base de données ?
-Elle est enregistrée dans le dossier ***chess_tournament -> models -> database: db.json***.
+H pour revenir à la page principale, Q pour quitter l'application
+#### Où se trouve la base de données ?
+Elle est enregistrée dans le dossier chess_tournament -> models -> database: db.json.
