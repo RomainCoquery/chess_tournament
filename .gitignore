@@ -1,4 +1,4 @@
 chess_tournament/.venv/
-chess_tournament/chess_tournament/models/database/db.json
 chess_tournament/chess_tournament/models/test.py
-todolist
+chess_tournament/chess_tournament/models/database/db.json
+
