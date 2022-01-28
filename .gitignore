@@ -1,4 +1,2 @@
 chess_tournament/.venv/
 chess_tournament/chess_tournament/models/test.py
-chess_tournament/chess_tournament/models/database/db.json
-
